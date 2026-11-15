@@ -1193,7 +1193,6 @@ html.touring,html.touring body{overflow:hidden;overscroll-behavior:none}
     <div class="hint" id="hint"></div>
     <div class="patterns fade" id="patterns"></div>
     <div class="patdesc fade" id="patdesc"></div>
-    <button class="startbtn fade" id="startBtn" onclick="toggleBreath()">Начать дыхание</button>
     <div class="cycles" id="cycles"></div>
     <button class="endbtn" onclick="toggleBreath()">Завершить</button>
   </div>
@@ -2085,7 +2084,6 @@ const HINTS={
 function phaseAt(t){ const tot=pat.steps.reduce((s,x)=>s+x[1],0); let e=((t-bStart)/1000)%tot, cyc=Math.floor((t-bStart)/1000/tot);
   for(let i=0;i<pat.steps.length;i++){ if(e<pat.steps[i][1]) return {i,name:pat.steps[i][0],dur:pat.steps[i][1],el:e,cyc}; e-=pat.steps[i][1]; } return {i:0,name:'',dur:1,el:0,cyc}; }
 function toggleBreath(){ breathing=!breathing; $('sos').classList.toggle('focus',breathing);
-  $('startBtn').textContent='Начать дыхание';
   if(breathing){ const cd=pat.steps.reduce((s,x)=>s+x[1],0); bTotal=Math.max(4,Math.round(BSESSION/cd)); $('bprog').innerHTML=Array.from({length:bTotal},()=>'<i></i>').join(''); bStart=performance.now()+1400; lastPhase=-1; cycleN=0; ensureAudio(); haptic('medium'); $('pn').textContent='Устройся поудобнее'; $('ps').textContent=''; $('hint').textContent='Сядь удобно, опусти плечи, можно закрыть глаза'; }
   else { $('bprog').innerHTML=''; $('pn').textContent='Коснись круга, чтобы начать'; $('ps').textContent=''; $('hint').textContent=''; $('cycles').textContent=cycleN>0?'Ты сделал '+(cycleN+1)+' '+(['цикл','цикла','циклов'][cycleN+1===1?0:(cycleN+1<5?1:2)])+'. Как ты сейчас?':''; } }
 // звук: только мягкий тихий колокольчик на задержке и паузе
@@ -2110,7 +2108,7 @@ const OCOL={'Вдох':[[255,244,232],[255,210,184],[242,155,136],[217,128,154]]
   'Выдох':[[236,248,255],[178,222,240],[110,170,215],[88,128,196]],'Пауза':[[240,244,255],[196,206,240],[140,150,214],[110,112,186]]};
 const ocur=OCOL['Вдох'].map(c=>c.slice());
 function finishBreath(){ breathing=false; $('sos').classList.remove('focus'); $('bprog').innerHTML=''; bell(); notify();
-  $('pn').textContent='Готово'; $('ps').textContent=''; $('hint').textContent=''; $('cycles').textContent=`Ты подышал около ${Math.round(BSESSION/60)} минут. Как ты сейчас? Можно ещё раз или перейти к «15 минутам»`; $('startBtn').textContent='Ещё раз'; }
+  $('pn').textContent='Готово'; $('ps').textContent=''; $('hint').textContent=''; $('cycles').textContent=`Ты подышал около ${Math.round(BSESSION/60)} минут. Как ты сейчас? Коснись круга, чтобы подышать ещё, или перейди к «15 минутам»`; }
 function drawOrb(t){
   const c=$('orb'), g=c.getContext('2d'), W=600, C=300; g.clearRect(0,0,W,W);
   let target=.55, ring=0, ph=null;
