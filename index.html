@@ -153,6 +153,17 @@ html{background:var(--bg)}
 #cravSheet h2{font-size:20px!important}
 .cvnote{font-size:13px;color:var(--muted);line-height:1.45;margin:14px 0 12px}
 .cvnote:empty{display:none}
+.cvadv{text-align:left;margin-top:16px;border-radius:20px;padding:16px;background:linear-gradient(150deg,#eef0ff,#f3eefc);color:#2f3570}
+:root.dark .cvadv{background:linear-gradient(150deg,rgba(124,140,230,.18),rgba(165,138,224,.10));color:#dfe2ff}
+.cvadv .al{display:flex;align-items:center;gap:8px;font-size:12.5px;font-weight:600;opacity:.75;margin-bottom:8px}
+.cvadv .al svg{width:16px;height:16px;flex:none}
+.cvadv .tg{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.cvadv .tg span{font-size:12px;font-weight:600;padding:3px 10px;border-radius:10px;background:rgba(255,255,255,.7);color:#4a52a0}
+:root.dark .cvadv .tg span{background:rgba(255,255,255,.12);color:#cfd3ff}
+.cvadv p{font-size:14.5px;line-height:1.48;margin:0}
+.cvadv p+p{margin-top:8px}
+.cvrow{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+.cvrow .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-size:15px;padding-left:8px;padding-right:8px}
 .cvok{width:56px;height:56px;border-radius:50%;margin:6px auto 0;display:grid;place-items:center;color:#fff;background:linear-gradient(135deg,#6f86e8,#a58ae0)}
 .plusbadge{display:inline-flex;align-items:center;gap:5px;height:40px;padding:0 13px 0 11px;border-radius:20px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.28);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);color:inherit;font:600 14px Onest,sans-serif;cursor:pointer}
 .plusbadge svg{width:14px;height:14px;color:#ffc65c}
@@ -1124,10 +1135,10 @@ html.touring,html.touring body{overflow:hidden;overscroll-behavior:none}
   <div id="cvStep2" style="display:none;text-align:center">
     <div class="cvok"><svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
     <h2 style="font-size:21px;margin:12px 0 6px" id="cvT2">Записал</h2>
-    <p class="muted" style="font-size:15px;line-height:1.5;margin:0 auto 18px;max-width:320px">Обычно тяга спадает за 15–20 минут. Подышим вместе три минуты?</p>
+    <div class="cvadv" id="cvAdv"></div>
+    <p class="muted" style="font-size:14px;line-height:1.5;margin:14px auto 14px;max-width:320px">Обычно тяга спадает за 15–20 минут. Подышим вместе три минуты?</p>
     <button class="btn" onclick="cravBreathe()">Подышать</button>
-    <div style="height:8px"></div>
-    <button class="btn quiet" onclick="closeSheets()">Не сейчас</button>
+    <div class="cvrow"><button class="btn quiet" onclick="shareDay()"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v7a1 1 0 001 1h14a1 1 0 001-1v-7M16 6l-4-4-4 4M12 2v13"/></svg>Поделиться днём</button><button class="btn quiet" onclick="closeSheets()">Не сейчас</button></div>
   </div>
 </div>
 
@@ -1135,7 +1146,7 @@ html.touring,html.touring body{overflow:hidden;overscroll-behavior:none}
 <div class="sheet" id="setSheet" role="dialog" aria-label="Настройки">
   <div class="grab"></div>
   <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px"><h2 style="font-size:22px">Настройки</h2>
-    <button class="bugbtn" onclick="openBug()" aria-label="Сообщить о проблеме"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 9a4 4 0 018 0v5a4 4 0 01-8 0z"/><path d="M12 9v9M4 13h4M16 13h4M5 7l3 2M19 7l-3 2M5 19l3-2M19 19l-3-2M10 5l-1-2M14 5l1-2"/></svg>Сообщить о проблеме</button></div>
+    <button class="bugbtn" onclick="openBug()" aria-label="Сообщить об ошибке"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 9a4 4 0 018 0v5a4 4 0 01-8 0z"/><path d="M12 9v9M4 13h4M16 13h4M5 7l3 2M19 7l-3 2M5 19l3-2M19 19l-3-2M10 5l-1-2M14 5l1-2"/></svg>Сообщить о проблеме</button></div>
   <div class="field"><label>От чего ты отказываешься</label><div class="hgrid" id="sHabits"></div>
     <input type="text" id="sHabitOther" placeholder="Своё: без чего считаем" style="display:none;margin-top:10px">
     <div class="smode" id="sHabitMode" style="display:none"><span>Счётчик дней:</span><button class="chip on" type="button" data-m="keep">оставить</button><button class="chip" type="button" data-m="reset">начать с сегодня</button></div></div>
@@ -1146,6 +1157,7 @@ html.touring,html.touring body{overflow:hidden;overscroll-behavior:none}
   <button class="btn" onclick="saveSettings()">Сохранить</button>
   <div class="setlinks">
     <button class="hubrow" onclick="closeSheets();setTimeout(()=>S.plus?openHub():openPlus(),250)"><span class="hi"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7L12 17.3 5.8 20.9l1.6-7L2 9.2l7.1-.6z"/></svg></span><span><b id="setPlusT">Плюс</b><small id="setPlusS">Письмо себе, цель, привычки, небо</small></span><svg class="chev" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></button>
+    <button class="hubrow" onclick="openBug('Идея')"><span class="hi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 21h4M12 3a6 6 0 00-3.5 10.9c.6.4 1 1.1 1 1.8V16h5v-.3c0-.7.4-1.4 1-1.8A6 6 0 0012 3z"/></svg></span><span><b>Чего не хватает?</b><small>Предложи идею — автор читает каждое сообщение</small></span><svg class="chev" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></button>
     <button class="hubrow" onclick="closeSheets();setTimeout(startTour,300)"><span class="hi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 015 .5c0 1.7-2.5 2-2.5 3.5M12 17h.01"/></svg></span><span><b>Как пользоваться</b><small>Короткое обучение по главному экрану</small></span><svg class="chev" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></button>
     <a class="hubrow" href="privacy.html" target="_blank" rel="noopener" style="text-decoration:none;color:inherit"><span class="hi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/></svg></span><span><b>Конфиденциальность</b><small>Где хранятся данные, оплата, важное</small></span><svg class="chev" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></a>
     <button class="hubrow" onclick="openRelapse()"><span class="hi" style="background:#fde8e2;color:#c0645a"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 109-9 9.7 9.7 0 00-6.7 2.8L3 8"/><path d="M3 3v5h5"/></svg></span><span><b>Случился срыв</b><small>Все трезвые дни сохранятся</small></span><svg class="chev" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></button>
@@ -1515,11 +1527,11 @@ html.touring,html.touring body{overflow:hidden;overscroll-behavior:none}
 <!-- сообщить о проблеме -->
 <div class="sheet" id="bugSheet" role="dialog" aria-label="Сообщить о проблеме">
   <div class="grab"></div>
-  <h2 style="font-size:22px">Что-то пошло не так?</h2>
-  <p class="muted" style="margin:6px 0 16px">Опиши, что случилось — я прочитаю каждое сообщение.</p>
+  <h2 style="font-size:22px" id="bugH">Напиши автору</h2>
+  <p class="muted" style="margin:6px 0 16px">Ошибка, идея или чего не хватает — автор читает каждое сообщение.</p>
   <div class="chips" id="bugType" style="margin-bottom:14px"><button class="chip on">Ошибка</button><button class="chip">Идея</button><button class="chip">Другое</button></div>
   <div class="field"><textarea rows="5" id="bugText" placeholder="Что ты делал и что произошло"></textarea></div>
-  <button class="btn" onclick="sendBug()">Отправить</button>
+  <button class="btn" id="bugSend" onclick="sendBug()">Отправить</button>
 </div>
 
 <!-- поддержка при сильной тяге -->
@@ -1787,14 +1799,17 @@ function openCare(){ const c=$('care'), call=$('careCall'); if(S.phone){ call.st
   c.classList.add('on'); requestAnimationFrame(()=>c.classList.add('show')); haptic('soft'); if(tg&&tg.BackButton){ tg.BackButton.show(); tg.BackButton.onClick(closeCare);} }
 function closeCare(){ const c=$('care'); c.classList.remove('show'); setTimeout(()=>c.classList.remove('on'),400); if(tg&&tg.BackButton){ tg.BackButton.offClick(closeCare); tg.BackButton.hide(); } }
 function pickAmt(b){ document.querySelectorAll('.amts .qchip').forEach(x=>x.classList.toggle('on',x===b)); haptic(); }
-const SUPPORT='beznarkotikotik'; // ник поддержки
-function openBug(){ closeSheets(); setTimeout(()=>{ [...$('bugType').children].forEach(c=>c.onclick=()=>{ [...$('bugType').children].forEach(x=>x.classList.toggle('on',x===c)); haptic(); }); openSheet('bugSheet'); },220); }
-function sendBug(){ const txt=$('bugText').value.trim(); if(!txt){ toast('Напиши пару слов'); return; }
-  const type=$('bugType').querySelector('.on').textContent;
-  const msg=`[${type}] ${txt}\n\n— ${navigator.userAgent.slice(0,90)}`;
-  const url='https://t.me/'+SUPPORT+'?text='+encodeURIComponent(msg);
+const SUPPORT='doeshaaa'; // ник поддержки
+const BUGPH={'Ошибка':'Что ты делал и что произошло','Идея':'Чего не хватает, что хотелось бы видеть','Другое':'Твоё сообщение'};
+function openBug(type){ closeSheets(); setTimeout(()=>{ const set=c=>{ [...$('bugType').children].forEach(x=>x.classList.toggle('on',x===c)); $('bugText').placeholder=BUGPH[c.textContent]; }; [...$('bugType').children].forEach(c=>{ c.onclick=()=>{ set(c); haptic(); }; if(type&&c.textContent===type) set(c); }); if(!type) set($('bugType').children[0]); openSheet('bugSheet'); },220); }
+async function sendBug(){ const txt=$('bugText').value.trim(); if(!txt){ toast('Напиши пару слов'); return; }
+  const type=$('bugType').querySelector('.on').textContent, meta=(S&&S.habit?'привычка: '+S.habit+' · ':'')+(S&&S.plus?'Плюс · ':'')+navigator.userAgent.slice(0,90);
+  if(payReady()){ const b=$('bugSend'); b.classList.add('loading');
+    try{ await apiCall('/api/feedback',{type,text:txt,meta}); b.classList.remove('loading'); $('bugText').value=''; closeSheets(); toast('Спасибо! Сообщение у автора'); haptic('medium'); return; }
+    catch(e){ b.classList.remove('loading'); if(e.message==='limit'){ toast('Слишком много сообщений за день'); return; } } }
+  const url='https://t.me/'+SUPPORT+'?text='+encodeURIComponent(`[${type}] ${txt}`);
   if(tg&&tg.openTelegramLink) tg.openTelegramLink(url); else window.open(url,'_blank');
-  $('bugText').value=''; closeSheets(); toast('Спасибо! Сообщение готово к отправке'); }
+  $('bugText').value=''; closeSheets(); toast('Открываю чат с автором'); }
 function demoPlus(on){ S.plus=!!on; store.set('settings',S); const sw=$('plusSw'); if(sw) sw.classList.toggle('on',S.plus);
   if($('plusSheet').classList.contains('on')) closeSheets();
   if($('practice').classList.contains('on')) renderPractice(); if($('sos').classList.contains('on')) buildPatterns();
@@ -1827,9 +1842,28 @@ function openCrav(){ cvVal=0; $('cvStep1').style.display=''; $('cvStep2').style.
   $('cvTrig').innerHTML=TRIG.map(t=>`<button type="button" class="chip">${t}</button>`).join(''); [...$('cvTrig').children].forEach(c=>c.onclick=()=>{c.classList.toggle('on');haptic();});
   $('cvNote').textContent=S.plus?'':'В Плюсе такие моменты сохраняются в карту тяги — видно, когда и после чего тянет сильнее.';
   $('cvSave').textContent=S.plus?'Отметить':'Дальше'; openSheet('cravSheet'); }
+const TRIG_TIP={
+ 'Стресс':'Стресс — частый спусковой крючок. Сделай пять медленных выдохов, каждый длиннее вдоха, и разожми плечи и челюсть. Облегчение от тяги обманчиво: стресс потом вернётся, а день будет потерян.',
+ 'Скука':'Скуке нужно занятие на 15 минут, а не вещество. Займи руки: прогулка, душ, уборка одной полки, пара упражнений. Пока ты занят, волна успеет пройти.',
+ 'Одиночество':'Одиночество тянет сильнее всего. Напиши кому-нибудь прямо сейчас — не обязательно о тяге, просто «привет, как ты?». Или загляни в группу поддержки.',
+ 'Компания':'Если вокруг употребляют — у тебя есть право выйти на воздух или уйти. Держи в руке свой напиток и заготовь фразу: «я не буду, спасибо».',
+ 'Деньги':'Когда тревожно из-за денег, вспомни: срыв обойдётся ещё дороже. Загляни на главный экран — сколько уже осталось у тебя. Это реальные деньги.',
+ 'Усталость':'Усталый мозг ищет быструю награду. Поешь, выпей воды, полежи 15 минут с закрытыми глазами. Часто за тягой прячутся голод и недосып.',
+ 'Конфликт':'После ссоры хочется заглушить чувства. Выпиши на листок всё, что злит, без фильтра. Злость пройдёт, а трезвый день останется с тобой.',
+ 'Праздник':'Праздник можно прожить трезво — и запомнить его. Держи свой напиток, договорись написать кому-то вечером и уходи пораньше, если станет тяжело.',
+ 'Плохой сон':'Недосып заметно усиливает тягу. Сегодня — ранний отбой без экрана, а сейчас подыши три минуты: это немного восстанавливает силы.'};
+function cravAdvice(v,trigs){ const ic='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 21h4M12 3a6 6 0 00-3.5 10.9c.6.4 1 1.1 1 1.8V16h5v-.3c0-.7.4-1.4 1-1.8A6 6 0 0012 3z"/></svg>';
+  const tips=trigs.filter(t=>TRIG_TIP[t]).slice(0,1).map(t=>TRIG_TIP[t]);
+  if(!tips.length) tips.push(v>=8?'Сильная волна — сейчас главное просто переждать. Не принимай решений ближайшие 20 минут: подыши и убери себя от ситуации.':'Ты заметил тягу, пока она ещё не накрыла, — это и есть навык. Подыши и займи руки на 15 минут.');
+  else if(v>=8) tips.push('Волна сильная — не оставайся с ней один.');
+  return `<div class="al">${ic}Что поможет сейчас</div>${trigs.length?`<div class="tg">${trigs.map(t=>`<span>${t}</span>`).join('')}</div>`:''}${tips.map(t=>`<p>${t}</p>`).join('')}`; }
+function shareDay(){ const d=streakDays(), k=dayKey(Date.now()), n=(C||[]).filter(e=>dayKey(e.t)===k).length;
+  let t=d?`Уже ${d} ${word(d)} без ${S.habit}.`:`Сегодня мой первый день без ${S.habit}.`; if(n) t+=` Тянуло ${n} ${n===1?'раз':(n<5?'раза':'раз')} — и я справляюсь.`; t+=' Иду день за днём.';
+  const url='https://t.me/share/url?url='+encodeURIComponent(BOT_LINK)+'&text='+encodeURIComponent(t);
+  if(tg&&tg.openTelegramLink) tg.openTelegramLink(url); else if(navigator.share) navigator.share({text:t+' '+BOT_LINK}).catch(()=>{}); else window.open(url,'_blank'); haptic(); }
 let cvLast=null;
 function saveCrav(){ if(!cvVal){ toast('Выбери, насколько тянет'); return; }
-  cvLast=null; if(S.plus){ const e={t:Date.now(),crav:cvVal,trig:[...$('cvTrig').querySelectorAll('.on')].map(b=>b.textContent),src:'now'}; C.push(e); if(C.length>500) C=C.slice(-500); store.set('cravings',C); cvLast=e; renderCravK(); }
+  cvLast=null; const trigs=[...$('cvTrig').querySelectorAll('.on')].map(b=>b.textContent); $('cvAdv').innerHTML=cravAdvice(cvVal,trigs); if(S.plus){ const e={t:Date.now(),crav:cvVal,trig:trigs,src:'now'}; C.push(e); if(C.length>500) C=C.slice(-500); store.set('cravings',C); cvLast=e; renderCravK(); }
   $('cvT2').textContent=S.plus?'Записал в карту тяги':'Ты заметил тягу — это уже шаг';
   $('cvStep1').style.display='none'; $('cvStep2').style.display=''; haptic('medium'); }
 function cravBreathe(){ if(cvLast){ cvLast.br=1; store.set('cravings',C); } closeSheets(); setTimeout(openSos,250); }
