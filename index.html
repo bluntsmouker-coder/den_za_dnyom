@@ -70,6 +70,9 @@ html{background:var(--bg)}
 .glassbtn svg{width:20px;height:20px}
 .count{font-size:100px;font-weight:700;line-height:.92;white-space:nowrap;transition:font-size .3s}
 .count.l2{font-size:76px}.count.l3{font-size:58px}.count.l4{font-size:46px}
+.sincerow{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.sharebtn{flex:none;width:36px;height:36px;min-width:36px;padding:0;justify-content:center}
+.sharebtn svg{width:16px;height:16px}
 .cntwrap{touch-action:pan-y;cursor:grab;user-select:none;-webkit-user-select:none;transition:transform .35s cubic-bezier(.2,.8,.2,1),opacity .35s}
 .cntwrap.outl{transform:translateX(-40px);opacity:0;transition-duration:.18s}
 .cntwrap.outr{transform:translateX(40px);opacity:0;transition-duration:.18s}
@@ -176,6 +179,20 @@ html{background:var(--bg)}
 /* ---------- кнопки ---------- */
 .btn{display:block;width:100%;border-radius:18px;padding:16px;font-weight:600;font-size:16px;background:linear-gradient(120deg,#3a4a96 0%,#6a55a8 55%,#d98a8c 120%);color:#fff;text-align:center;text-decoration:none;box-shadow:0 8px 22px rgba(90,75,160,.28);transition:transform .15s,box-shadow .2s}
 .btn:active{transform:scale(.98);box-shadow:0 4px 12px rgba(90,75,160,.22)}
+.nwhead{display:flex;align-items:center;justify-content:space-between}
+.nwbadge{display:inline-flex;gap:5px;align-items:center;font-size:12.5px;font-weight:600;padding:5px 11px;border-radius:12px;background:linear-gradient(135deg,#eef0ff,#f3eefc);color:#4a52a0}
+:root.dark .nwbadge{background:rgba(124,140,230,.18);color:#cfd3ff}
+.nwi{display:flex;gap:12px;align-items:flex-start;padding:10px 0}
+.nwi+.nwi{border-top:1px solid var(--line)}
+.nwi .nd{flex:none;width:28px;height:28px;border-radius:9px;display:grid;place-items:center;color:#fff;background:linear-gradient(135deg,#7d8fec,#a58ae0)}
+.nwi .nd svg{width:15px;height:15px}
+.nwi b{display:block;font-weight:600;font-size:15px}
+.nwi span{font-size:13.5px;color:var(--muted);line-height:1.4}
+.nwold{margin-top:14px}
+.nwold summary{cursor:pointer;font-size:14px;color:var(--muted);font-weight:600;list-style:none}
+.nwold summary::-webkit-details-marker{display:none}
+.nwold .ov{font-size:13.5px;color:var(--muted);margin-top:10px;line-height:1.5}
+.directbtn{display:flex;align-items:center;justify-content:center;gap:8px}
 .rsico{width:56px;height:56px;border-radius:50%;margin:4px auto 0;display:grid;place-items:center;background:#fde8e2;color:#c0645a}
 .btn.rsbtn{background:#d9625a;color:#fff;box-shadow:0 8px 20px rgba(217,98,90,.3)}
 .btn.quiet{background:var(--surface2);color:var(--ink);box-shadow:none}
@@ -1001,7 +1018,7 @@ html.touring,html.touring body{overflow:hidden;overscroll-behavior:none}
       <div class="cntwrap" id="cntwrap"><div class="count num" id="count">0</div>
       <div class="countlbl" id="countLbl">дней</div></div>
       <div class="udots" id="udots"><i class="on"></i><i></i><i></i></div>
-      <div class="since" id="since"></div>
+      <div class="sincerow"><div class="since" id="since"></div><button class="glassbtn sharebtn" id="shareBtn" onclick="shareDay()" aria-label="Поделиться днём"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v7a1 1 0 001 1h14a1 1 0 001-1v-7M16 6l-4-4-4 4M12 2v13"/></svg></button></div>
       <div class="milestone"><div class="mbar"><i id="mbar"></i></div><span class="mtext" id="mtext"></span></div>
       <div class="thought" id="thought"></div>
     </div>
@@ -1138,7 +1155,7 @@ html.touring,html.touring body{overflow:hidden;overscroll-behavior:none}
     <div class="cvadv" id="cvAdv"></div>
     <p class="muted" style="font-size:14px;line-height:1.5;margin:14px auto 14px;max-width:320px">Обычно тяга спадает за 15–20 минут. Подышим вместе три минуты?</p>
     <button class="btn" onclick="cravBreathe()">Подышать</button>
-    <div class="cvrow"><button class="btn quiet" onclick="shareDay()"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v7a1 1 0 001 1h14a1 1 0 001-1v-7M16 6l-4-4-4 4M12 2v13"/></svg>Поделиться днём</button><button class="btn quiet" onclick="closeSheets()">Не сейчас</button></div>
+    <div style="height:8px"></div><button class="btn quiet" onclick="closeSheets()">Не сейчас</button>
   </div>
 </div>
 
@@ -1158,12 +1175,14 @@ html.touring,html.touring body{overflow:hidden;overscroll-behavior:none}
   <div class="setlinks">
     <button class="hubrow" onclick="closeSheets();setTimeout(()=>S.plus?openHub():openPlus(),250)"><span class="hi"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7L12 17.3 5.8 20.9l1.6-7L2 9.2l7.1-.6z"/></svg></span><span><b id="setPlusT">Плюс</b><small id="setPlusS">Письмо себе, цель, привычки, небо</small></span><svg class="chev" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></button>
     <button class="hubrow" onclick="openBug('Идея')"><span class="hi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 21h4M12 3a6 6 0 00-3.5 10.9c.6.4 1 1.1 1 1.8V16h5v-.3c0-.7.4-1.4 1-1.8A6 6 0 0012 3z"/></svg></span><span><b>Чего не хватает?</b><small>Предложи идею — автор читает каждое сообщение</small></span><svg class="chev" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></button>
+    <button class="hubrow" onclick="closeSheets();setTimeout(openNew,250)"><span class="hi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.4 5.6L20 9.3l-4.3 3.9 1.3 5.8L12 16l-5 3 1.3-5.8L4 9.3l5.6-.7z"/></svg></span><span><b>Что нового</b><small id="setVer">Версия</small></span><svg class="chev" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></button>
     <button class="hubrow" onclick="closeSheets();setTimeout(startTour,300)"><span class="hi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 015 .5c0 1.7-2.5 2-2.5 3.5M12 17h.01"/></svg></span><span><b>Как пользоваться</b><small>Короткое обучение по главному экрану</small></span><svg class="chev" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></button>
     <a class="hubrow" href="privacy.html" target="_blank" rel="noopener" style="text-decoration:none;color:inherit"><span class="hi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/></svg></span><span><b>Конфиденциальность</b><small>Где хранятся данные, оплата, важное</small></span><svg class="chev" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></a>
     <button class="hubrow" onclick="openRelapse()"><span class="hi" style="background:#fde8e2;color:#c0645a"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 109-9 9.7 9.7 0 00-6.7 2.8L3 8"/><path d="M3 3v5h5"/></svg></span><span><b>Случился срыв</b><small>Все трезвые дни сохранятся</small></span><svg class="chev" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></button>
     <button class="hubrow" onclick="closeSheets();setTimeout(()=>openSheet('resetSheet'),250)"><span class="hi" style="background:var(--surface2);color:var(--muted)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/></svg></span><span><b>Начать с нуля</b><small>Стереть все данные. Плюс сохранится</small></span><svg class="chev" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></button>
   </div>
   <div style="height:20px"></div>
+  <p class="muted" id="syncNote" style="font-size:12.5px;text-align:center;margin:0 auto 14px;max-width:34ch"></p>
   <div class="devbox" id="devBox"><div><b>Режим проверки</b><span>Включает Плюс без оплаты. Уберём перед запуском</span></div>
     <button class="switch" id="plusSw" onclick="demoPlus(!S.plus)" aria-label="Плюс для проверки"><i></i></button></div>
 </div>
@@ -1244,6 +1263,8 @@ html.touring,html.touring body{overflow:hidden;overscroll-behavior:none}
   <button class="btn" id="buyBtn" onclick="buyPlus()">Оформить</button>
   <button class="btn quiet" id="trialBtn" style="margin-top:8px" onclick="startTrial()">Попробовать 7 дней бесплатно</button>
   <p class="muted" style="text-align:center;font-size:13px;margin:10px auto 14px">Оплата звёздами Telegram, без автосписаний: продлеваешь, когда сам захочешь</p>
+  <button class="btn quiet directbtn" onclick="buyDirect()"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>Купить напрямую у автора</button>
+  <p class="muted" style="text-align:center;font-size:12.5px;margin:6px auto 14px;max-width:34ch">Переводом или как удобнее — напиши, договоримся, и Плюс включится вручную</p>
   <button class="btn quiet" onclick="buyGift()">Подарить Плюс близкому — год</button>
   <button class="link" id="codeLink" style="display:block;margin:10px auto 0" onclick="$('codeBox').classList.toggle('on')">У меня есть код подарка</button>
   <div class="codebox" id="codeBox"><input type="text" id="giftCode" placeholder="Код из 8 символов" autocomplete="off" maxlength="12"><button class="btn" onclick="redeemGift()">Активировать</button></div>
@@ -1502,6 +1523,16 @@ html.touring,html.touring body{overflow:hidden;overscroll-behavior:none}
 </div>
 
 <!-- поддержать -->
+<div class="sheet" id="newSheet" role="dialog" aria-label="Что нового">
+  <div class="grab"></div>
+  <div class="nwhead"><span class="nwbadge">Обновление <b id="nwVer"></b></span><span class="muted" id="nwDate" style="font-size:13px"></span></div>
+  <h2 style="font-size:22px;margin:10px 0 14px">Что нового</h2>
+  <div id="nwList"></div>
+  <div id="nwOld"></div>
+  <div style="height:12px"></div>
+  <button class="btn" onclick="closeSheets()">Понятно</button>
+</div>
+
 <div class="sheet" id="resetSheet" role="dialog" aria-label="Начать с нуля">
   <div class="grab"></div>
   <div class="rsico"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 109-9 9.7 9.7 0 00-6.7 2.8L3 8"/><path d="M3 3v5h5"/></svg></div>
@@ -1578,11 +1609,19 @@ const lsSet=(k,s)=>{ try{ localStorage.setItem(k,s); }catch(e){} };
 const QS={};
 const csCall=(fn,...a)=>new Promise(r=>{ try{ CS[fn](...a,(e,v)=>r(e?undefined:v)); }catch(e){ r(undefined); } });
 const store = {
+  // Читает ключ из облака Telegram (общий для всех устройств аккаунта). При ошибке связи — повторяет,
+  // и только если облако так и не ответило, берёт копию с этого устройства (store.lastOk=false).
+  async cloud(k){ for(let a=0;a<3;a++){ const n=await csCall('getItem',k+'__n');
+      if(n!==undefined){ const c=+n||0;
+        if(c>0){ const keys=Array.from({length:c},(_,i)=>k+'__'+i), vals=await csCall('getItems',keys); if(vals&&keys.every(x=>typeof vals[x]==='string')) return {ok:true,raw:keys.map(x=>vals[x]).join('')}; }
+        else { const v=await csCall('getItem',k); if(v!==undefined) return {ok:true,raw:v||null}; } }
+      if(a<2) await new Promise(r=>setTimeout(r,300*(a+1))); }
+    return {ok:false,raw:null}; },
+  lastOk:true,
   async get(k){ if(!CS) return lsGet(k);
-    const n=+(await csCall('getItem',k+'__n'))||0; let raw=null;
-    if(n>0){ const keys=Array.from({length:n},(_,i)=>k+'__'+i), vals=await csCall('getItems',keys); if(vals&&keys.every(x=>typeof vals[x]==='string')) raw=keys.map(x=>vals[x]).join(''); }
-    else { const v=await csCall('getItem',k); if(v) raw=v; } // старый формат одним ключом
+    const {ok,raw}=await store.cloud(k); if(!ok) store.lastOk=false;
     if(raw){ try{ const o=JSON.parse(raw); lsSet(k,raw); return o; }catch(e){} }
+    if(ok) return null; // в облаке пусто — значит данных нет ни на одном устройстве
     return lsGet(k); },
   set(k,v){ const s=JSON.stringify(v); lsSet(k,s); if(!CS) return;
     const parts=[]; for(let i=0;i<s.length;i+=CHUNK) parts.push(s.slice(i,i+CHUNK));
@@ -1710,8 +1749,8 @@ function render(){
   const d=streakDays(), h=new Date().getHours();
   $('greet').textContent=(h<5?'Доброй ночи':h<12?'Доброе утро':h<18?'Добрый день':'Добрый вечер')+(tgName?', '+tgName:'');
   renderHChips(); renderCount(); const hc=heroCur(), hd=Math.max(0,Math.floor((Date.now()-hc.start)/DAY));
-  $('since').textContent='с '+new Date(hc.start).toLocaleDateString('ru-RU',{day:'numeric',month:'long'});
-  const nx=MS.find(x=>x>hd)||365, pv=[...MS].reverse().find(x=>x<=hd)||0;
+  $('since').textContent='с '+new Date(hc.start).toLocaleDateString('ru-RU',new Date(hc.start).getFullYear()===new Date().getFullYear()?{day:'numeric',month:'long'}:{day:'numeric',month:'long',year:'numeric'}).replace(/ г\.$/,'');
+  let nx=MS.find(x=>x>hd), pv=[...MS].reverse().find(x=>x<=hd)||0; if(!nx){ const y=Math.floor(hd/365); pv=y*365; nx=(y+1)*365; }
   $('mbar').style.width=Math.min(100,((Date.now()-hc.start)/DAY-pv)/(nx-pv)*100)+'%';
   $('mtext').textContent='Ещё '+(nx-hd)+' '+word(nx-hd)+' до рубежа '+nx;
   $('thought').textContent=thought(hd); $('tipText').textContent=tipOfDay(hc.name); $('tipFor').textContent='Для тебя: '+hc.label.toLowerCase(); $('tipDate').textContent=new Date().toLocaleDateString('ru-RU',{day:'numeric',month:'long'});
@@ -1731,11 +1770,13 @@ const UNITS=[
 let unitIx=0;
 function renderCount(){ if(!S||!S.habit) return; const hc=heroCur(), sec=Math.max(0,Math.floor((Date.now()-hc.start)/1000)), [div,lbl]=UNITS[unitIx], n=Math.floor(sec/div);
   const txt=n.toLocaleString('ru-RU'), el=$('count'); el.textContent=txt; const L=txt.replace(/\s/g,'').length;
-  el.classList.toggle('l2',L>=4&&L<6); el.classList.toggle('l3',L>=6&&L<8); el.classList.toggle('l4',L>=8);
   fitCount(); $('countLbl').textContent=lbl(n)+' без '+hc.name; [...$('udots').children].forEach((d,i)=>d.classList.toggle('on',i===unitIx)); }
-function fitCount(){ const el=$('count'), box=$('sky'); if(!el||!box) return; el.style.fontSize=''; const maxW=box.clientWidth-44; let fs=parseFloat(getComputedStyle(el).fontSize);
-  while(el.scrollWidth>maxW&&fs>28){ fs-=2; el.style.fontSize=fs+'px'; } }
+function fitCount(){ const el=$('count'), wrap=$('cntwrap'); if(!el||!wrap) return;
+  const BASE=100; el.style.transition='none'; el.style.fontSize=BASE+'px';
+  const r=document.createRange(); r.selectNodeContents(el); const w=r.getBoundingClientRect().width, maxW=wrap.clientWidth;
+  const fs=w>maxW?Math.max(34,Math.floor(BASE*maxW/w*0.98)):BASE; el.style.fontSize=fs+'px'; void el.offsetWidth; el.style.transition=''; }
 addEventListener('resize',()=>{ if(S&&S.habit) fitCount(); });
+try{ document.fonts&&document.fonts.ready.then(()=>{ if(S&&S.habit) fitCount(); }); }catch(e){}
 function switchUnit(dir){ const w=$('cntwrap'); w.classList.add(dir>0?'outl':'outr'); haptic();
   setTimeout(()=>{ unitIx=(unitIx+dir+UNITS.length)%UNITS.length; S.unit=unitIx; store.set('settings',S); renderCount();
     w.classList.remove('outl','outr'); w.classList.add(dir>0?'inl':'inr'); w.offsetHeight; w.classList.remove('inl','inr'); },180); }
@@ -1772,7 +1813,7 @@ function openSettings(){ sHab={g:S.habit,other:!HABITS.some(([l,g])=>g===S.habit
   [...$('sHabitMode').querySelectorAll('.chip')].forEach(c=>{ c.classList.toggle('on',c.dataset.m==='keep'); c.onclick=()=>{ sMode=c.dataset.m; [...$('sHabitMode').querySelectorAll('.chip')].forEach(x=>x.classList.toggle('on',x===c)); haptic(); }; });
   renderSetHabits(); $('setPlusT').textContent=S.plus?'Твой Плюс':'День за днём Плюс'; $('setPlusS').textContent=S.plus?'Письмо себе, цель, привычки, небо, отчёт':'Карта тяги, практики, письмо себе';
   setStart=S.start; $('sWheelBox').innerHTML=wheelHTML('sw'); initWheel('sw',S.start,t=>setStart=t); $('sCost').value=S.cost||'';
-  $('plusSw').classList.toggle('on',!!S.plus); $('sReasons').value=(S.reasons||[]).join('\n'); $('sPhone').value=S.phone||''; openSheet('setSheet'); }
+  $('plusSw').classList.toggle('on',!!S.plus); $('syncNote').textContent=CS?(store.lastOk?'Данные хранятся в твоём аккаунте Telegram и одинаковы на всех устройствах':'Не удалось связаться с облаком Telegram — показаны данные с этого устройства. Перезапусти приложение'):(inTg?'Обнови Telegram, чтобы данные синхронизировались между устройствами':''); { const sv=$('setVer'); if(sv) sv.textContent='Версия '+APP_VERSION+' · '+CHANGELOG[0].d; } $('sReasons').value=(S.reasons||[]).join('\n'); $('sPhone').value=S.phone||''; openSheet('setSheet'); }
 function saveSettings(){ const nh=sHab.other?$('sHabitOther').value.trim():sHab.g; const changed=nh&&nh!==S.habit; if(nh) S.habit=nh; if(changed&&sMode==='reset'){ S.start=Date.now(); setStart=0; S.celebrated=0; } if(setStart&&dayKey(setStart)!==dayKey(S.start)) S.start=setStart;
   S.cost=+$('sCost').value||0; S.reasons=$('sReasons').value.split('\n').map(x=>x.trim()).filter(Boolean); S.phone=$('sPhone').value.trim();
   if(changed){ S.heroIx=0; } store.set('settings',S); closeSheets(); render(); if(changed){ window.scrollTo({top:0,behavior:'smooth'}); toast('Теперь считаем дни без '+S.habit); } else toast('Сохранено'); }
@@ -2183,6 +2224,11 @@ function pollPlus(n){ syncPlus().then(()=>{ if(!S.plus&&n>0) setTimeout(()=>poll
 function buyPlus(){ const sel=document.querySelector('.plan.on'); openPay(sel.dataset.p,()=>{ toast('Спасибо! Плюс подключён'); pollPlus(5); setTimeout(()=>{ closeSheets(); confetti(); },600); },$('buyBtn')); }
 function buyGift(){ openPay('gift_year',()=>toast('Спасибо! Код подарка придёт сообщением от бота')); }
 function donate(){ const sel=document.querySelector('.amts .qchip.on'); openPay(sel.dataset.p,()=>{ closeSheets(); toast('Спасибо за поддержку!'); confetti(); }); }
+function buyDirect(){ const sel=document.querySelector('.plan.on'), plan=sel?sel.querySelector('small').textContent:'';
+  const uid=tg&&tg.initDataUnsafe&&tg.initDataUnsafe.user?tg.initDataUnsafe.user.id:'';
+  const t=`Привет! Хочу купить «День за днём Плюс» напрямую${plan?' — '+plan.toLowerCase():''}.${uid?' Мой ID: '+uid:''}`;
+  const url='https://t.me/'+SUPPORT+'?text='+encodeURIComponent(t);
+  if(tg&&tg.openTelegramLink) tg.openTelegramLink(url); else window.open(url,'_blank'); haptic(); }
 async function startTrial(){ if(!payReady()){ if(!inTg){ demoPlus(true); return; } payOutside(); return; } const b=$('trialBtn'); b.classList.add('loading');
   try{ applyStatus(await apiCall('/api/trial')); toast('Плюс включён на 7 дней'); closeSheets(); confetti(); }catch(e){ toast(e.message==='trial_used'?'Пробный период уже был':'Не получилось. Попробуй позже'); } b.classList.remove('loading'); }
 async function redeemGift(){ const c=$('giftCode').value.trim(); if(c.length<6){ toast('Проверь код'); return; } if(!payReady()){ payOutside(); return; }
@@ -2374,6 +2420,20 @@ function renderTips(){ $('wtips').innerHTML=WT.map((t,i)=>`<button type="button"
   [...$('wtips').children].forEach(b=>b.onclick=()=>{ const i=+b.dataset.i; wDone.has(i)?wDone.delete(i):wDone.add(i); b.classList.toggle('done'); haptic(wDone.has(i)?'medium':'light'); wNote(); }); wNote(); }
 function wNote(){ $('wnote').textContent=wDone.size?`Сделано: ${wDone.size}. Ты заботишься о себе`:(ut?'Таймер идёт, даже если свернуть приложение':'Отмечай, что делаешь, пока ждёшь'); }
 document.addEventListener('visibilitychange',()=>{ if(!document.hidden&&ut) waitTick(); });
+// Синхронизация между устройствами: при возвращении в приложение подтягиваем свежие данные из облака
+let syncBusy=false;
+async function syncFromCloud(){ if(!CS||syncBusy||!S||!S.habit) return; syncBusy=true;
+  try{ const pend=Object.values(QS); if(pend.length) await Promise.all(pend);
+    const [s2,j2,r2,c2]=await Promise.all(['settings','journal','relapses','cravings'].map(k=>store.cloud(k)));
+    if(!s2.ok||!s2.raw) return; let ch=false;
+    const sNew=JSON.parse(s2.raw); if(JSON.stringify(sNew)!==JSON.stringify(S)){ const keepPlus={plus:S.plus,plusUntil:S.plusUntil,plusForever:S.plusForever}; S=Object.assign(sNew,keepPlus); lsSet('settings',s2.raw); ch=true; }
+    if(j2.ok&&j2.raw&&j2.raw!==JSON.stringify(J)){ J=JSON.parse(j2.raw); lsSet('journal',j2.raw); ch=true; }
+    if(r2.ok&&r2.raw&&r2.raw!==JSON.stringify(R)){ R=JSON.parse(r2.raw); lsSet('relapses',r2.raw); ch=true; }
+    if(c2.ok&&c2.raw&&c2.raw!==JSON.stringify(C)){ C=JSON.parse(c2.raw); lsSet('cravings',c2.raw); ch=true; }
+    store.lastOk=true; if(ch){ render(); if($('path').classList.contains('on')) renderPath(); } }
+  catch(e){} finally{ syncBusy=false; } }
+document.addEventListener('visibilitychange',()=>{ if(!document.hidden) setTimeout(syncFromCloud,400); });
+setInterval(()=>{ if(!document.hidden&&!document.querySelector('.sheet.on')) syncFromCloud(); },60000);
 function waitTick(){ wleft=Math.max(0,Math.ceil((wEnd-Date.now())/1000)); waitView(); if(wleft<=0){ clearInterval(ut); ut=null; $('timer').textContent='0:00'; $('wsub').textContent='Ты переждал. Это победа'; $('waitBtn').textContent='Ещё раз'; $('waitBtn').classList.remove('run'); wleft=900; wDone=new Set(); notify(); wNote(); } }
 function waitView(){ $('timer').textContent=`${Math.floor(wleft/60)}:${String(wleft%60).padStart(2,'0')}`; $('wbar').style.width=((1-wleft/900)*100)+'%';
   $('wsub').textContent=!ut&&wleft===900?'Дай волне пройти':(wleft>600?'Волна поднимается':(wleft>300?'Пик позади':'Волна спадает')); }
@@ -2459,14 +2519,32 @@ function renderOb(){ const el=$('ostep'); el.style.animation='none'; el.offsetHe
   if(ob.step===1){ obWheel=initWheel('obw',ob.start,t=>{ ob.start=t; obPrev(); }); obPrev(); }
   if(ob.step===2) obCost(0,ob.cost);
   if(ob.step===3) obRenderR(); }
+const APP_VERSION='1.2';
+const CHANGELOG=[
+ {v:'1.2',d:'15 ноября',items:[
+  ['Совет, когда тянет','После отметки тяги приложение подскажет, что поможет именно сейчас — под твою причину: скука, одиночество, стресс и другие.'],
+  ['Поделиться днём','Кнопка рядом со счётчиком: отправь близким, сколько ты уже идёшь.'],
+  ['«Тянет» и «Был срыв» рядом','Обе кнопки теперь на главном экране, сразу под «Как ты сегодня?».'],
+  ['Напиши автору','Идеи и ошибки уходят автору прямо из приложения — в настройках «Чего не хватает?».']]},
+ {v:'1.1',d:'14 ноября',items:[['Запуск','Плюс, оплата звёздами, практики с голосом и звуками природы, карта тяги.']]}];
+const NWIC='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
+function openNew(){ const c=CHANGELOG[0]; $('nwVer').textContent=c.v; $('nwDate').textContent=c.d;
+  $('nwList').innerHTML=c.items.map(([t,d])=>`<div class="nwi"><span class="nd">${NWIC}</span><div><b>${t}</b><span>${d}</span></div></div>`).join('');
+  const old=CHANGELOG.slice(1); $('nwOld').innerHTML=old.length?`<details class="nwold"><summary>Прошлые обновления</summary>${old.map(o=>`<div class="ov"><b>${o.v} · ${o.d}</b><br>${o.items.map(i=>i[0]+' — '+i[1]).join('<br>')}</div>`).join('')}</details>`:'';
+  if(S){ S.seenVer=APP_VERSION; store.set('settings',S); } openSheet('newSheet'); }
+function maybeNew(n){ if(!S||!S.habit||S.seenVer===APP_VERSION) return;
+  const busy=['party','coach','onb','sos','med'].some(id=>$(id)&&$(id).classList.contains('on'))||document.querySelector('.sheet.on');
+  if(busy){ if((n||0)<20) setTimeout(()=>maybeNew((n||0)+1),3000); return; } openNew(); }
 async function doReset(){ const b=$('rsGo'); b.classList.add('loading'); b.disabled=true;
   try{ if(CS){ const keys=await csCall('getKeys'); if(keys&&keys.length){ for(let i=0;i<keys.length;i+=50) await csCall('removeItems',keys.slice(i,i+50)); } } }catch(e){}
   try{ localStorage.clear(); }catch(e){} try{ sessionStorage.setItem('justReset','1'); }catch(e){}
   haptic('medium'); location.replace(location.pathname); }
 function onbBack(){ if(ob.step<=0) return; ob.step--; renderOb(); haptic(); }
-function onbNext(){ if(ob.step===0&&!ob.habit){ toast(ob.custom?'Напиши, без чего считаем':'Выбери вариант'); return; }
+async function onbNext(){ if(ob.step===0&&!ob.habit){ toast(ob.custom?'Напиши, без чего считаем':'Выбери вариант'); return; }
   if(ob.step<3){ ob.step++; renderOb(); haptic(); return; }
-  S={habit:ob.habit,start:ob.start,cost:ob.cost,reasons:ob.reasons,phone:'',celebrated:0};
+  if(CS){ const c=await store.cloud('settings'); if(c.ok&&c.raw){ try{ const o=JSON.parse(c.raw); if(o&&o.habit){ S=o; lsSet('settings',c.raw); J=(await store.get('journal'))||[]; R=(await store.get('relapses'))||[]; C=(await store.get('cravings'))||[];
+    $('onb').classList.remove('on'); render(); syncPlus(); toast('Нашли твои данные — они общие для всех устройств'); return; } }catch(e){} } }
+  S={habit:ob.habit,start:ob.start,cost:ob.cost,reasons:ob.reasons,phone:'',celebrated:0,seenVer:APP_VERSION};
   store.set('settings',S); $('onb').classList.remove('on'); render(); notify(); syncPlus(); toast('Первый шаг сделан'); setTimeout(checkParty,900); setTimeout(startTour,1600); }
 
 /* ---------- практики: контент ---------- */
@@ -2898,6 +2976,7 @@ if(QOPEN||QRESET){ try{ history.replaceState(null,'',location.pathname); }catch(
   requestAnimationFrame(loop); hideSplash(); if(inTg&&$('devBox')) $('devBox').style.display='none'; if(S&&S.habit){ plusExpiredLocal(); render(); syncPlus(); }
   let jr=false; try{ jr=sessionStorage.getItem('justReset')==='1'; sessionStorage.removeItem('justReset'); }catch(e){}
   if(jr) setTimeout(()=>toast('Всё стёрто. Начинаем с чистого листа'),2600);
+  if(!QRESET&&!QOPEN) setTimeout(maybeNew,3200);
   if(QRESET) setTimeout(()=>openSheet('resetSheet'),2500);
   else if(QOPEN&&S&&S.habit) setTimeout(()=>{ if(QOPEN==='plus') (S.plus?openHub():openPlus()); else if(QOPEN==='sos') openSos(); else if(QOPEN==='donate') openSheet('donSheet'); },2500);
 })();
