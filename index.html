@@ -165,6 +165,8 @@ html{background:var(--bg)}
 /* ---------- кнопки ---------- */
 .btn{display:block;width:100%;border-radius:18px;padding:16px;font-weight:600;font-size:16px;background:linear-gradient(120deg,#3a4a96 0%,#6a55a8 55%,#d98a8c 120%);color:#fff;text-align:center;text-decoration:none;box-shadow:0 8px 22px rgba(90,75,160,.28);transition:transform .15s,box-shadow .2s}
 .btn:active{transform:scale(.98);box-shadow:0 4px 12px rgba(90,75,160,.22)}
+.rsico{width:56px;height:56px;border-radius:50%;margin:4px auto 0;display:grid;place-items:center;background:#fde8e2;color:#c0645a}
+.btn.rsbtn{background:#d9625a;color:#fff;box-shadow:0 8px 20px rgba(217,98,90,.3)}
 .btn.quiet{background:var(--surface2);color:var(--ink);box-shadow:none}
 .link{color:var(--act);font-weight:600;padding:8px 0}
 
@@ -1147,6 +1149,7 @@ html.touring,html.touring body{overflow:hidden;overscroll-behavior:none}
     <button class="hubrow" onclick="closeSheets();setTimeout(startTour,300)"><span class="hi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 015 .5c0 1.7-2.5 2-2.5 3.5M12 17h.01"/></svg></span><span><b>Как пользоваться</b><small>Короткое обучение по главному экрану</small></span><svg class="chev" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></button>
     <a class="hubrow" href="privacy.html" target="_blank" rel="noopener" style="text-decoration:none;color:inherit"><span class="hi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/></svg></span><span><b>Конфиденциальность</b><small>Где хранятся данные, оплата, важное</small></span><svg class="chev" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></a>
     <button class="hubrow" onclick="openRelapse()"><span class="hi" style="background:#fde8e2;color:#c0645a"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 109-9 9.7 9.7 0 00-6.7 2.8L3 8"/><path d="M3 3v5h5"/></svg></span><span><b>Случился срыв</b><small>Все трезвые дни сохранятся</small></span><svg class="chev" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></button>
+    <button class="hubrow" onclick="closeSheets();setTimeout(()=>openSheet('resetSheet'),250)"><span class="hi" style="background:var(--surface2);color:var(--muted)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/></svg></span><span><b>Начать с нуля</b><small>Стереть все данные. Плюс сохранится</small></span><svg class="chev" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></button>
   </div>
   <div style="height:20px"></div>
   <div class="devbox" id="devBox"><div><b>Режим проверки</b><span>Включает Плюс без оплаты. Уберём перед запуском</span></div>
@@ -1487,6 +1490,17 @@ html.touring,html.touring body{overflow:hidden;overscroll-behavior:none}
 </div>
 
 <!-- поддержать -->
+<div class="sheet" id="resetSheet" role="dialog" aria-label="Начать с нуля">
+  <div class="grab"></div>
+  <div class="rsico"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 109-9 9.7 9.7 0 00-6.7 2.8L3 8"/><path d="M3 3v5h5"/></svg></div>
+  <h2 style="font-size:22px;margin:14px 0 8px;text-align:center">Начать с нуля?</h2>
+  <p class="muted" style="text-align:center;font-size:15px;line-height:1.5;margin:0 auto 6px;max-width:34ch">Удалятся счётчик, дневник, срывы, отметки тяги, письмо себе и настройки. Приложение откроется как в первый раз.</p>
+  <p style="text-align:center;font-size:14px;font-weight:600;color:#2f8f63;margin:10px 0 18px">Плюс останется — он привязан к твоему аккаунту</p>
+  <button class="btn rsbtn" id="rsGo" onclick="doReset()">Стереть и начать заново</button>
+  <div style="height:8px"></div>
+  <button class="btn quiet" onclick="closeSheets()">Отмена</button>
+</div>
+
 <div class="sheet" id="donSheet" role="dialog" aria-label="Поддержать проект">
   <div class="grab"></div>
   <div class="donart"><svg viewBox="0 0 120 90" width="120" height="90"><path class="steam" d="M48 18c0 6 6 6 6 12M62 14c0 6 6 6 6 12" stroke="#c9b6ea" stroke-width="3" fill="none" stroke-linecap="round"/>
@@ -2411,11 +2425,15 @@ function renderOb(){ const el=$('ostep'); el.style.animation='none'; el.offsetHe
   if(ob.step===1){ obWheel=initWheel('obw',ob.start,t=>{ ob.start=t; obPrev(); }); obPrev(); }
   if(ob.step===2) obCost(0,ob.cost);
   if(ob.step===3) obRenderR(); }
+async function doReset(){ const b=$('rsGo'); b.classList.add('loading'); b.disabled=true;
+  try{ if(CS){ const keys=await csCall('getKeys'); if(keys&&keys.length){ for(let i=0;i<keys.length;i+=50) await csCall('removeItems',keys.slice(i,i+50)); } } }catch(e){}
+  try{ localStorage.clear(); }catch(e){} try{ sessionStorage.setItem('justReset','1'); }catch(e){}
+  haptic('medium'); location.replace(location.pathname); }
 function onbBack(){ if(ob.step<=0) return; ob.step--; renderOb(); haptic(); }
 function onbNext(){ if(ob.step===0&&!ob.habit){ toast(ob.custom?'Напиши, без чего считаем':'Выбери вариант'); return; }
   if(ob.step<3){ ob.step++; renderOb(); haptic(); return; }
   S={habit:ob.habit,start:ob.start,cost:ob.cost,reasons:ob.reasons,phone:'',celebrated:0};
-  store.set('settings',S); $('onb').classList.remove('on'); render(); notify(); toast('Первый шаг сделан'); setTimeout(checkParty,900); setTimeout(startTour,1600); }
+  store.set('settings',S); $('onb').classList.remove('on'); render(); notify(); syncPlus(); toast('Первый шаг сделан'); setTimeout(checkParty,900); setTimeout(startTour,1600); }
 
 /* ---------- практики: контент ---------- */
 const COURSE=[
@@ -2834,6 +2852,8 @@ function hideSplash(now){ if(splashGone) return; const wait=now===true?0:Math.ma
     setTimeout(()=>sp.remove(),1000); },wait); }
 
 const tgName = tg && tg.initDataUnsafe && tg.initDataUnsafe.user ? tg.initDataUnsafe.user.first_name : '';
+const QP=new URLSearchParams(location.search), QOPEN=QP.get('open'), QRESET=QP.get('reset')==='1';
+if(QOPEN||QRESET){ try{ history.replaceState(null,'',location.pathname); }catch(e){} }
 (async()=>{
   S=await store.get('settings'); if(S&&S.unit&&S.unit<3) unitIx=S.unit; J=(await store.get('journal'))||[]; R=(await store.get('relapses'))||[]; C=(await store.get('cravings'))||[];
   moodButtons($('qmoods'),v=>openCheck(v)); moodButtons($('smoods'),v=>{ moodV=v; [...$('smoods').children].forEach(b=>b.classList.toggle('on',+b.dataset.v===v)); haptic(); });
@@ -2842,6 +2862,10 @@ const tgName = tg && tg.initDataUnsafe && tg.initDataUnsafe.user ? tg.initDataUn
   else { render(); setTimeout(checkParty,700); }
   setInterval(()=>{ if(S.habit) render(); },30000);
   requestAnimationFrame(loop); hideSplash(); if(inTg&&$('devBox')) $('devBox').style.display='none'; if(S&&S.habit){ plusExpiredLocal(); render(); syncPlus(); }
+  let jr=false; try{ jr=sessionStorage.getItem('justReset')==='1'; sessionStorage.removeItem('justReset'); }catch(e){}
+  if(jr) setTimeout(()=>toast('Всё стёрто. Начинаем с чистого листа'),2600);
+  if(QRESET) setTimeout(()=>openSheet('resetSheet'),2500);
+  else if(QOPEN&&S&&S.habit) setTimeout(()=>{ if(QOPEN==='plus') (S.plus?openHub():openPlus()); else if(QOPEN==='sos') openSos(); else if(QOPEN==='donate') openSheet('donSheet'); },2500);
 })();
 </script>
 </body>
