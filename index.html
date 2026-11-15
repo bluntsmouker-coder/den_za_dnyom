@@ -556,6 +556,18 @@ input[type=range]{width:100%;accent-color:var(--act);height:32px}
 .party p{opacity:.85;margin:0 auto 26px}
 @keyframes popin{from{transform:scale(.3);opacity:0}to{transform:none;opacity:1}}
 
+.patpop{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom));transform:translate(-50%,24px);width:min(420px,calc(100% - 32px));z-index:60;display:flex;gap:12px;align-items:flex-start;padding:16px;border-radius:22px;background:rgba(30,36,72,.92);border:1px solid rgba(255,255,255,.16);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);box-shadow:0 18px 40px rgba(0,0,0,.35);color:#fff;opacity:0;pointer-events:none;transition:opacity .3s,transform .35s cubic-bezier(.2,.8,.2,1)}
+.patpop.on{opacity:1;transform:translate(-50%,0);pointer-events:auto}
+.ppstar{flex:none;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,#ffd27a,#ff9f6b);color:#3a2410}
+.ppstar svg{width:18px;height:18px}
+.pptx{flex:1;min-width:0}
+.pptx b{display:block;font-family:Unbounded,sans-serif;font-weight:600;font-size:15px;line-height:1.3}
+.pptx small{display:block;font-size:12.5px;opacity:.7;margin-top:4px;line-height:1.4}
+.pptx p{margin:8px 0 0;font-size:14px;line-height:1.45;opacity:.95}
+.pptx p b{display:inline;font-family:inherit;font-size:inherit;font-weight:700}
+.ppbtns{display:flex;gap:8px;margin-top:12px}
+.ppbtns button{flex:1;border:0;border-radius:14px;padding:10px 12px;font:600 14px Onest,sans-serif;background:#fff;color:#1c2242;cursor:pointer;white-space:nowrap}
+.ppbtns button.ghost{background:rgba(255,255,255,.14);color:#fff}
 .toast{position:fixed;left:50%;top:16px;transform:translate(-50%,calc(-100% - 40px));z-index:80;background:var(--ink);color:var(--bg);padding:11px 18px;border-radius:24px;font-weight:600;transition:transform .3s,opacity .3s;opacity:0;white-space:nowrap}
 .toast.on{transform:translate(-50%,0);opacity:1}
 #checkDot svg{transform-origin:50% 85%;animation:faceSway 7s ease-in-out 1.5s infinite}
@@ -1194,6 +1206,9 @@ html.touring,html.touring body{overflow:hidden;overscroll-behavior:none}
     <div class="patterns fade" id="patterns"></div>
     <div class="patdesc fade" id="patdesc"></div>
     <div class="cycles" id="cycles"></div>
+    <div class="patpop" id="patPop" role="dialog" aria-live="polite"><div class="ppstar"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7L12 17.3 5.8 20.9l1.6-7L2 9.2l7.1-.6z"/></svg></div>
+      <div class="pptx"><b id="ppT"></b><small id="ppD"></small><p id="ppN"></p>
+      <div class="ppbtns"><button onclick="patPopClose()">Хорошо</button><button class="ghost" onclick="patPopClose();closeSos();setTimeout(openPlus,300)">Что в Плюсе</button></div></div></div>
     <button class="endbtn" onclick="toggleBreath()">Завершить</button>
   </div>
   <div class="sospane" id="pWait">
@@ -1642,7 +1657,7 @@ function openCare(){ const c=$('care'), call=$('careCall'); if(S.phone){ call.st
   c.classList.add('on'); requestAnimationFrame(()=>c.classList.add('show')); haptic('soft'); if(tg&&tg.BackButton){ tg.BackButton.show(); tg.BackButton.onClick(closeCare);} }
 function closeCare(){ const c=$('care'); c.classList.remove('show'); setTimeout(()=>c.classList.remove('on'),400); if(tg&&tg.BackButton){ tg.BackButton.offClick(closeCare); tg.BackButton.hide(); } }
 function pickAmt(b){ document.querySelectorAll('.amts .qchip').forEach(x=>x.classList.toggle('on',x===b)); haptic(); }
-const SUPPORT='den_za_dnem_support'; // ник аккаунта поддержки в Telegram — заменить при запуске
+const SUPPORT='beznarkotikotik'; // ник поддержки
 function openBug(){ closeSheets(); setTimeout(()=>{ [...$('bugType').children].forEach(c=>c.onclick=()=>{ [...$('bugType').children].forEach(x=>x.classList.toggle('on',x===c)); haptic(); }); openSheet('bugSheet'); },220); }
 function sendBug(){ const txt=$('bugText').value.trim(); if(!txt){ toast('Напиши пару слов'); return; }
   const type=$('bugType').querySelector('.on').textContent;
@@ -1966,7 +1981,7 @@ function endTour(quiet){ document.documentElement.classList.remove('touring'); t
 
 
 /* ---------- оплата звёздами Telegram ---------- */
-const API=''; // адрес сервера оплаты, например https://den-za-dnem.ИМЯ.workers.dev — подставить при запуске
+const API='https://den-za-dnem.bluntsmouker.workers.dev'; // сервер оплаты
 const payReady=()=>!!(inTg&&API&&tg.openInvoice);
 async function apiCall(path,body){ const r=await fetch(API+path,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({initData:tg.initData,...(body||{})})}); const j=await r.json().catch(()=>({})); if(!r.ok) throw Object.assign(new Error(j.error||'net'),{data:j}); return j; }
 function applyStatus(st){ S.plus=!!st.plus; S.plusUntil=st.until||0; S.plusForever=!!st.forever; S.trialUsed=!!st.trialUsed; store.set('settings',S); render(); if($('path').classList.contains('on')) renderPath(); if($('practice').classList.contains('on')) renderPractice(); plusSheetUI(); }
@@ -2075,7 +2090,11 @@ let pat=PATTERNS[0], breathing=false, bStart=0, soundOn=true, actx=null, lastPha
 function buildPatterns(){ const star='<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7L12 17.3 5.8 20.9l1.6-7L2 9.2l7.1-.6z"/></svg>';
   $('patterns').innerHTML=PATTERNS.map(p=>`<button class="pat ${p===pat?'on':''} ${p.plus?'plus':''}" onclick="pickPat('${p.id}')">${p.plus?star:''}${p.name}${p.plus&&!S.plus?'<span class="lk">Плюс</span>':''}</button>`).join(''); }
 function patDesc(){ const el=$('patdesc'); if(el) el.textContent=PDESC[pat.id]||''; }
-function pickPat(id){ const p=PATTERNS.find(x=>x.id===id); if(p.plus&&!S.plus){ $('patdesc').textContent=PDESC[p.id]||''; $('cycles').textContent='«'+p.name+'» — в Плюсе. Сейчас подыши со «Спокойным», а Плюс посмотришь, когда станет легче'; haptic(); return; } if(breathing) toggleBreath(); pat=p; buildPatterns(); patDesc(); $('cycles').textContent=''; haptic(); }
+function patPop(p){ const el=$('patPop'); $('ppT').textContent='«'+p.name+'» — в Плюсе'; $('ppD').textContent=(PDESC[p.id]||'');
+  $('ppN').innerHTML='Сейчас включено <b>«'+pat.name+'»</b> — оно бесплатное и тоже хорошо помогает переждать тягу.';
+  el.classList.add('on'); clearTimeout(patPop.t); patPop.t=setTimeout(patPopClose,9000); }
+function patPopClose(){ clearTimeout(patPop.t); $('patPop').classList.remove('on'); }
+function pickPat(id){ const p=PATTERNS.find(x=>x.id===id); if(p.plus&&!S.plus){ patPop(p); haptic(); return; } patPopClose(); if(breathing) toggleBreath(); pat=p; buildPatterns(); patDesc(); $('cycles').textContent=''; haptic(); }
 const HINTS={
   'Вдох':['Медленно через нос. Почувствуй, как живот наполняется воздухом','Вдыхай спокойствие. Плечи опущены','Представь место, где тебе было хорошо'],
   'Задержи':['Просто побудь в этом мгновении','Мягко, без напряжения. Ты в безопасности','Подумай о человеке, который тебя любит'],
@@ -2083,7 +2102,7 @@ const HINTS={
   'Пауза':['Остановись. Ничего не нужно делать','Заметь: ты справляешься прямо сейчас','Тишина. Ещё один спокойный вдох впереди']};
 function phaseAt(t){ const tot=pat.steps.reduce((s,x)=>s+x[1],0); let e=((t-bStart)/1000)%tot, cyc=Math.floor((t-bStart)/1000/tot);
   for(let i=0;i<pat.steps.length;i++){ if(e<pat.steps[i][1]) return {i,name:pat.steps[i][0],dur:pat.steps[i][1],el:e,cyc}; e-=pat.steps[i][1]; } return {i:0,name:'',dur:1,el:0,cyc}; }
-function toggleBreath(){ breathing=!breathing; $('sos').classList.toggle('focus',breathing);
+function toggleBreath(){ breathing=!breathing; patPopClose(); $('sos').classList.toggle('focus',breathing);
   if(breathing){ const cd=pat.steps.reduce((s,x)=>s+x[1],0); bTotal=Math.max(4,Math.round(BSESSION/cd)); $('bprog').innerHTML=Array.from({length:bTotal},()=>'<i></i>').join(''); bStart=performance.now()+1400; lastPhase=-1; cycleN=0; ensureAudio(); haptic('medium'); $('pn').textContent='Устройся поудобнее'; $('ps').textContent=''; $('hint').textContent='Сядь удобно, опусти плечи, можно закрыть глаза'; }
   else { $('bprog').innerHTML=''; $('pn').textContent='Коснись круга, чтобы начать'; $('ps').textContent=''; $('hint').textContent=''; $('cycles').textContent=cycleN>0?'Ты сделал '+(cycleN+1)+' '+(['цикл','цикла','циклов'][cycleN+1===1?0:(cycleN+1<5?1:2)])+'. Как ты сейчас?':''; } }
 // звук: только мягкий тихий колокольчик на задержке и паузе
@@ -2159,7 +2178,7 @@ function openSos(){ setTimeout(()=>{ renderTips(); patDesc(); }); $('sosLetter')
   $('sosReasons').innerHTML=(S.reasons||[]).map((r,i)=>`<div class="reason"><span class="rnum">${i+1}</span>${esc(r)}</div>`).join('')||'<p>Добавь свои причины в настройках — они помогут в такой момент.</p>';
   renderCall(); phoneForm(false);
   if(tg&&tg.BackButton){ tg.BackButton.show(); tg.BackButton.onClick(closeSos);} }
-function closeSos(silent){ $('sos').classList.remove('on'); if(breathing) toggleBreath(); clearInterval(ut); ut=null;
+function closeSos(silent){ $('sos').classList.remove('on'); patPopClose(); if(breathing) toggleBreath(); clearInterval(ut); ut=null;
   if(tg&&tg.BackButton){ tg.BackButton.offClick(closeSos); tg.BackButton.hide(); } if(silent!==true) toast('Ты справился с этой волной'); }
 function sosTab(p){ document.querySelectorAll('.sospane').forEach(x=>x.classList.toggle('on',x.id===p));
   document.querySelectorAll('.sosnav button').forEach(b=>b.classList.toggle('on',b.dataset.p===p)); if(p!=='pBreath'&&breathing) toggleBreath(); haptic(); }
