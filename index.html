@@ -1788,7 +1788,7 @@ function openCare(){ const c=$('care'), call=$('careCall'); if(S.phone){ call.st
   c.classList.add('on'); requestAnimationFrame(()=>c.classList.add('show')); haptic('soft'); if(tg&&tg.BackButton){ tg.BackButton.show(); tg.BackButton.onClick(closeCare);} }
 function closeCare(){ const c=$('care'); c.classList.remove('show'); setTimeout(()=>c.classList.remove('on'),400); if(tg&&tg.BackButton){ tg.BackButton.offClick(closeCare); tg.BackButton.hide(); } }
 function pickAmt(b){ document.querySelectorAll('.amts .qchip').forEach(x=>x.classList.toggle('on',x===b)); haptic(); }
-const SUPPORT='beznarkotikotik'; // ник поддержки
+const SUPPORT='doeshaaa'; // ник поддержки
 const BUGPH={'Ошибка':'Что ты делал и что произошло','Идея':'Чего не хватает, что хотелось бы видеть','Другое':'Твоё сообщение'};
 function openBug(type){ closeSheets(); setTimeout(()=>{ const set=c=>{ [...$('bugType').children].forEach(x=>x.classList.toggle('on',x===c)); $('bugText').placeholder=BUGPH[c.textContent]; }; [...$('bugType').children].forEach(c=>{ c.onclick=()=>{ set(c); haptic(); }; if(type&&c.textContent===type) set(c); }); if(!type) set($('bugType').children[0]); openSheet('bugSheet'); },220); }
 async function sendBug(){ const txt=$('bugText').value.trim(); if(!txt){ toast('Напиши пару слов'); return; }
