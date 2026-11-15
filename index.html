@@ -275,7 +275,8 @@ input[type=range]{width:100%;accent-color:var(--act);height:32px}
 .sos .glassbtn{color:#fff}
 .sos h1{margin:14px 0 6px;font-size:24px}
 .sos p{opacity:.82}
-.breathwrap{position:relative;width:300px;height:300px;margin:12px auto 0}
+.breathwrap{position:relative;width:300px;height:300px;margin:12px auto 0;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.sos.focus .breathwrap{cursor:default}
 .breathwrap canvas{width:300px;height:300px}
 .phase{display:flex;justify-content:center;align-items:baseline;gap:10px;min-height:40px;margin:2px 0 10px;transition:transform .6s cubic-bezier(.2,.8,.2,1)}
 .phase .pn{font-size:17px;font-weight:600;color:rgba(255,255,255,.75);transition:font-size .4s}
@@ -863,6 +864,7 @@ body.boot .tabs{opacity:0;filter:blur(6px)}
 @keyframes lbpulse{0%{opacity:.9;transform:scale(.92)}100%{opacity:0;transform:scale(1.18)}}
 .lbt b{display:block;font-size:15px}.lbt small{display:block;font-size:13px;color:var(--muted);margin-top:3px;line-height:1.4}
 .lbx{position:absolute;right:8px;top:8px;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;color:var(--muted)}
+html.touring,html.touring body{overflow:hidden;overscroll-behavior:none}
 @media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
 </style>
 </head>
@@ -1185,8 +1187,8 @@ body.boot .tabs{opacity:0;filter:blur(6px)}
   <div class="sospane on" id="pBreath">
     <h1 class="fade">Дыши вместе с кругом</h1>
     <p class="fade">Тяга приходит волной и обычно спадает за 15–20 минут. Несколько минут дыхания помогают её переждать.</p>
-    <div class="breathwrap"><canvas id="orb" width="600" height="600"></canvas></div>
-    <div class="phase"><span class="pn" id="pn">Нажми, когда будешь готов</span><span class="ps num" id="ps"></span></div>
+    <div class="breathwrap" id="orbTap" onclick="if(!breathing) toggleBreath()" role="button" aria-label="Начать дыхание"><canvas id="orb" width="600" height="600"></canvas></div>
+    <div class="phase"><span class="pn" id="pn">Коснись круга, чтобы начать</span><span class="ps num" id="ps"></span></div>
     <div class="bprog" id="bprog"></div>
     <div class="hint" id="hint"></div>
     <div class="patterns fade" id="patterns"></div>
@@ -1658,7 +1660,7 @@ function pickPlan(b){ document.querySelectorAll('.plan').forEach(p=>p.classList.
 
 
 /* ---------- Плюс: инструменты ---------- */
-const BOT_LINK='https://t.me/den_za_dnem_bot'; // ссылка на бота — заменить при запуске
+const BOT_LINK='https://t.me/den_za_dnyom_bot'; // ссылка на бота — заменить при запуске
 const WD=['понедельник','вторник','среду','четверг','пятницу','субботу','воскресенье'];
 const WDN=['Понедельник','Вторник','Среда','Четверг','Пятница','Суббота','Воскресенье'];
 const WDS=['Пн','Вт','Ср','Чт','Пт','Сб','Вс'];
@@ -1945,7 +1947,7 @@ const TOUR=[['#cntwrap','Твои дни','Здесь счётчик. Нажми
 let tIx=0;
 function startTour(){ if($('party').classList.contains('on')||$('onb').classList.contains('on')){ setTimeout(startTour,800); return; }
   closeSheets(); if($('sos').classList.contains('on')) closeSos(true); if($('med').classList.contains('on')) closeMed(); toggleHabMenu&&$('habMenu').classList.remove('on');
-  if(!$('today').classList.contains('on')) go('today'); tIx=0; $('coach').classList.add('on'); $('cdots').innerHTML=TOUR.map(()=>'<i></i>').join(''); tourShow(); }
+  if(!$('today').classList.contains('on')) go('today'); tIx=0; document.documentElement.classList.add('touring'); try{ tg&&tg.disableVerticalSwipes&&tg.disableVerticalSwipes(); }catch(e){} $('coach').classList.add('on'); $('cdots').innerHTML=TOUR.map(()=>'<i></i>').join(''); tourShow(); }
 function tourShow(){ const [sel,t,p]=TOUR[tIx]; let el=document.querySelector(sel); if(el&&sel==='#checkRow') el=el.closest('.tile'); if(!el){ tourNext(); return; }
   const fixed=getComputedStyle(el.closest('.tabs')||el).position==='fixed'||!!el.closest('.tabs');
   if(!fixed){ const r0=el.getBoundingClientRect(); if(r0.top<70||r0.bottom>innerHeight-260) window.scrollTo({top:Math.max(0,scrollY+r0.top-120),behavior:'instant'}); }
@@ -1954,8 +1956,14 @@ function tourShow(){ const [sel,t,p]=TOUR[tIx]; let el=document.querySelector(se
     $('ctT').textContent=t; $('ctP').textContent=p; const ct=$('ctip'), below=r.bottom+pad+14, h=ct.offsetHeight||150;
     ct.style.top=(below+h<innerHeight-10?below:Math.max(10,r.top-pad-14-h))+'px'; ct.style.opacity=1;
     [...$('cdots').children].forEach((d,i)=>d.classList.toggle('on',i===tIx)); $('cnext').textContent=tIx===TOUR.length-1?'Понятно':'Дальше'; },fixed?60:420); }
+['wheel','touchmove'].forEach(ev=>document.addEventListener(ev,e=>{ if($('coach').classList.contains('on')) e.preventDefault(); },{passive:false}));
+addEventListener('keydown',e=>{ if($('coach').classList.contains('on')&&['ArrowDown','ArrowUp','PageDown','PageUp',' ','Home','End'].includes(e.key)) e.preventDefault(); });
+addEventListener('scroll',()=>{ if($('coach').classList.contains('on')) tourPlace(); },{passive:true});
+addEventListener('resize',()=>{ if($('coach').classList.contains('on')) tourPlace(); });
+function tourPlace(){ const [sel]=TOUR[tIx]; let el=document.querySelector(sel); if(el&&sel==='#checkRow') el=el.closest('.tile'); if(!el) return; const r=el.getBoundingClientRect(), pad=8, sp=$('spot');
+  sp.style.transition='none'; sp.style.left=(r.left-pad)+'px'; sp.style.top=(r.top-pad)+'px'; sp.style.width=(r.width+pad*2)+'px'; sp.style.height=(r.height+pad*2)+'px'; requestAnimationFrame(()=>sp.style.transition=''); }
 function tourNext(){ haptic(); if(tIx>=TOUR.length-1){ endTour(); return; } tIx++; tourShow(); }
-function endTour(quiet){ $('coach').classList.remove('on'); S.tour=1; store.set('settings',S); if(!quiet) window.scrollTo({top:0,behavior:'smooth'}); }
+function endTour(quiet){ document.documentElement.classList.remove('touring'); try{ tg&&tg.enableVerticalSwipes&&tg.enableVerticalSwipes(); }catch(e){} $('coach').classList.remove('on'); S.tour=1; store.set('settings',S); if(!quiet) window.scrollTo({top:0,behavior:'smooth'}); }
 
 
 /* ---------- оплата звёздами Telegram ---------- */
@@ -2079,7 +2087,7 @@ function phaseAt(t){ const tot=pat.steps.reduce((s,x)=>s+x[1],0); let e=((t-bSta
 function toggleBreath(){ breathing=!breathing; $('sos').classList.toggle('focus',breathing);
   $('startBtn').textContent='Начать дыхание';
   if(breathing){ const cd=pat.steps.reduce((s,x)=>s+x[1],0); bTotal=Math.max(4,Math.round(BSESSION/cd)); $('bprog').innerHTML=Array.from({length:bTotal},()=>'<i></i>').join(''); bStart=performance.now()+1400; lastPhase=-1; cycleN=0; ensureAudio(); haptic('medium'); $('pn').textContent='Устройся поудобнее'; $('ps').textContent=''; $('hint').textContent='Сядь удобно, опусти плечи, можно закрыть глаза'; }
-  else { $('bprog').innerHTML=''; $('pn').textContent='Нажми, когда будешь готов'; $('ps').textContent=''; $('hint').textContent=''; $('cycles').textContent=cycleN>0?'Ты сделал '+(cycleN+1)+' '+(['цикл','цикла','циклов'][cycleN+1===1?0:(cycleN+1<5?1:2)])+'. Как ты сейчас?':''; } }
+  else { $('bprog').innerHTML=''; $('pn').textContent='Коснись круга, чтобы начать'; $('ps').textContent=''; $('hint').textContent=''; $('cycles').textContent=cycleN>0?'Ты сделал '+(cycleN+1)+' '+(['цикл','цикла','циклов'][cycleN+1===1?0:(cycleN+1<5?1:2)])+'. Как ты сейчас?':''; } }
 // звук: только мягкий тихий колокольчик на задержке и паузе
 function ensureAudio(){ if(!soundOn) return; try{ if(!actx) actx=new (window.AudioContext||window.webkitAudioContext)(); if(actx.state==='suspended') actx.resume(); }catch(e){} }
 function stopTone(){}
