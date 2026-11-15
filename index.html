@@ -80,7 +80,9 @@ html{background:var(--bg)}
 .udots i.on{width:16px;opacity:.9}
 .countlbl{font-size:20px;font-weight:600;margin-top:8px}
 .since{margin-top:2px;opacity:.85;font-size:15px}
-.thought{margin-top:20px;max-width:30ch;font-size:16px;line-height:1.45;opacity:.95}
+.thought{position:relative;margin-top:20px;max-width:32ch;width:fit-content;font-size:16px;font-weight:500;line-height:1.45;padding:12px 16px 12px 18px;border-radius:16px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.18);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+.thought::before{content:"";position:absolute;left:0;top:12px;bottom:12px;width:3px;border-radius:0 3px 3px 0;background:linear-gradient(180deg,#ffd27a,#ff9f8a)}
+.thought:empty{display:none}
 .milestone{margin-top:18px;max-width:66%}
 .mbar{height:8px;border-radius:8px;background:rgba(255,255,255,.24);overflow:hidden}
 .sky.dayText .mbar{background:rgba(30,36,51,.12)}
@@ -129,6 +131,32 @@ html{background:var(--bg)}
 .quote .mark{display:none}
 
 .plusrow{display:flex;align-items:center;gap:14px;color:var(--ink)}
+.qact{display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:left;min-height:0;padding:16px}
+.qact .ci,.qact .ri{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;flex:none;margin-bottom:10px}
+.qact b{font-family:Unbounded,sans-serif;font-weight:600;font-size:16px;line-height:1.2}
+.qact .k{font-size:13px;line-height:1.3}
+.cravtile{color:#2f3570;background:linear-gradient(135deg,#eef0ff,#e6e2fb)}
+.cravtile .k{color:#6a6f9e!important}
+:root.dark .cravtile{color:#dfe2ff;background:linear-gradient(135deg,rgba(124,140,230,.18),rgba(165,138,224,.10))}
+:root.dark .cravtile .k{color:#aeb2d8!important}
+.cravtile .ci{color:#fff;background:linear-gradient(135deg,#7d8fec,#a58ae0);box-shadow:0 4px 12px rgba(125,143,236,.4)}
+.cravtile .ci path{animation:cvwave 4s ease-in-out infinite}
+@keyframes cvwave{50%{transform:translateX(-1.5px)}}
+.cvlvl{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
+.cvlvl button{border:1px solid var(--line);background:var(--surface2);border-radius:16px;padding:10px 2px 9px;display:flex;flex-direction:column;align-items:center;gap:6px;color:var(--ink);font:500 11.5px Onest,sans-serif;cursor:pointer}
+.cvlvl button i{display:block;width:100%;max-width:34px;height:6px;border-radius:3px;background:var(--line);overflow:hidden;position:relative}
+.cvlvl button i::after{content:"";position:absolute;inset:0;width:var(--w);background:linear-gradient(90deg,#8ea0f0,#e88f86);border-radius:3px}
+.cvlvl button b{font:600 17px Unbounded,sans-serif}
+.cvlvl button.on{border-color:var(--act);background:var(--soft);color:var(--act)}
+.cvlvl button span{white-space:nowrap}
+#cvTrig .chip{padding:7px 12px;font-size:13.5px}
+#cravSheet h2{font-size:20px!important}
+.cvnote{font-size:13px;color:var(--muted);line-height:1.45;margin:14px 0 12px}
+.cvnote:empty{display:none}
+.cvok{width:56px;height:56px;border-radius:50%;margin:6px auto 0;display:grid;place-items:center;color:#fff;background:linear-gradient(135deg,#6f86e8,#a58ae0)}
+.plusbadge{display:inline-flex;align-items:center;gap:5px;height:40px;padding:0 13px 0 11px;border-radius:20px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.28);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);color:inherit;font:600 14px Onest,sans-serif;cursor:pointer}
+.plusbadge svg{width:14px;height:14px;color:#ffc65c}
+.plusbadge[hidden]{display:none}
 .pdot{width:38px;height:38px;border-radius:12px;background:linear-gradient(135deg,#283567,#5a4b8a 55%,#e2967f);flex:none}
 .plus{background:linear-gradient(135deg,#283567 0%,#5a4b8a 55%,#e2967f 100%);color:#fff}
 .plus .k{color:rgba(255,255,255,.82)}
@@ -242,6 +270,53 @@ input[type=range]{width:100%;accent-color:var(--act);height:32px}
 .pbars i.hot{background:#ffd29a}
 .pdays{display:flex;gap:8px;margin-top:6px;font-size:11px;opacity:.75}.pdays span{flex:1;text-align:center}
 .pnote{margin-top:10px;font-size:13px;opacity:.9;line-height:1.4}
+.phh{font-size:28px;line-height:1.15;margin-top:12px}
+.pfc{margin-top:18px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:20px;padding:14px 14px 12px}
+.pfct{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;font-size:13px}
+.pfct b{font-weight:600;opacity:.9}
+.pfchip{display:inline-flex;align-items:center;gap:6px;background:rgba(255,210,154,.22);color:#ffe2bb;border-radius:10px;padding:3px 9px;font-weight:600;font-size:12px}
+.pfchip i{width:6px;height:6px;border-radius:50%;background:#ffd29a;animation:pfpulse 1.8s ease-in-out infinite}
+@keyframes pfpulse{50%{opacity:.35;transform:scale(.7)}}
+.pfc .pbars{height:70px}
+.pbub{display:flex;gap:10px;align-items:flex-start;margin-top:12px;background:#fff;color:#2a2f55;border-radius:14px;padding:10px 12px;font-size:13px;line-height:1.4;box-shadow:0 8px 20px rgba(20,20,60,.25)}
+.pbi{flex:none;width:28px;height:28px;border-radius:9px;display:grid;place-items:center;background:linear-gradient(135deg,#ffd27a,#ff9f8a);color:#4a2a10}
+.pbi svg{width:16px;height:16px}
+.psec{font-size:17px;margin:22px 0 12px}
+.pk{border-radius:22px;padding:16px;margin-bottom:10px;background:var(--surface2)}
+.pkh{display:flex;align-items:center;gap:10px}
+.pkh b{font-family:Unbounded,sans-serif;font-weight:600;font-size:15.5px}
+.pki{width:36px;height:36px;border-radius:12px;display:grid;place-items:center;color:#fff;flex:none}
+.pk1 .pki{background:linear-gradient(135deg,#5b6fd6,#8a7ad8)}
+.pk2 .pki{background:linear-gradient(135deg,#f0a07c,#e47f8f)}
+.pk3 .pki{background:linear-gradient(135deg,#4fb39a,#5f9fd6)}
+.pk1{background:linear-gradient(160deg,#eef0ff,#f6f4ff)}
+.pk2{background:linear-gradient(160deg,#fff1ea,#fff7f2)}
+.pk3{background:linear-gradient(160deg,#e8f7f2,#eef6ff)}
+:root.dark .pk1{background:linear-gradient(160deg,rgba(91,111,214,.18),rgba(138,122,216,.08))}
+:root.dark .pk2{background:linear-gradient(160deg,rgba(240,160,124,.16),rgba(228,127,143,.07))}
+:root.dark .pk3{background:linear-gradient(160deg,rgba(79,179,154,.16),rgba(95,159,214,.07))}
+.pk p{font-size:14px;line-height:1.45;color:var(--muted);margin:10px 0 12px}
+.pkv{display:grid;gap:8px}
+.ptr{display:grid;grid-template-columns:96px 1fr 30px;align-items:center;gap:10px;font-size:13px}
+.ptr em{font-style:normal;color:var(--ink)}
+.ptr span{height:8px;border-radius:4px;background:rgba(91,111,214,.14);overflow:hidden}
+.ptr span i{display:block;height:100%;border-radius:4px;background:linear-gradient(90deg,#8ea0f0,#e88f86)}
+.ptr small{text-align:right;font-weight:700;color:var(--ink)}
+.pletter{background:var(--surface);border-radius:14px;padding:14px 16px;box-shadow:0 6px 18px rgba(200,110,90,.12);transform:rotate(-.8deg)}
+.pletter q{display:block;font-family:Lora,serif;font-style:italic;font-size:15.5px;line-height:1.45;color:var(--ink);quotes:none}
+.pletter small{display:block;margin-top:8px;font-size:12.5px;color:var(--muted)}
+.pcourse{display:flex;flex-direction:column;gap:10px}
+.pseg{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}
+.pseg i{height:6px;border-radius:3px;background:rgba(79,179,154,.2)}
+.pseg i.on{background:linear-gradient(90deg,#4fb39a,#5f9fd6)}
+.pchips{display:flex;gap:6px;flex-wrap:wrap}
+.pchips span{font-size:12px;font-weight:600;padding:4px 10px;border-radius:10px;background:var(--surface);color:var(--muted)}
+.pmini{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.pmini>div{background:var(--surface2);border-radius:18px;padding:14px;display:flex;flex-direction:column;gap:3px}
+.pmini svg{color:var(--act);margin-bottom:6px}
+.pmini b{font-size:14px;font-weight:600;line-height:1.25}
+.pmini span{font-size:12.5px;color:var(--muted);line-height:1.3}
+.pfree{font-size:13px;color:var(--muted);line-height:1.45;text-align:center;margin:18px auto 4px;max-width:36ch}
 .cmp{margin:16px 0 4px;border-radius:18px;background:var(--surface2);padding:6px 14px}
 .cmp>div{display:grid;grid-template-columns:1fr 78px 52px;padding:10px 0;border-bottom:1px solid var(--line);font-size:14px;align-items:center}
 .cmp>div:last-child{border-bottom:0}
@@ -776,11 +851,11 @@ body.boot .tabs{opacity:0;filter:blur(6px)}
 .ptl i.r{background:#f2a594}
 .ptl i.now{background:linear-gradient(90deg,#7fc8a9,#f4b860);box-shadow:0 0 10px rgba(244,184,96,.5)}
 .jpath p{font-size:13px;color:var(--muted);margin-top:10px;line-height:1.4}
-.relrow{display:flex;align-items:center;gap:14px;color:#5a2f2a;background:linear-gradient(120deg,#fff3ee,#ffe3da);box-shadow:0 1px 2px rgba(120,60,50,.06)}
+.relrow{color:#5a2f2a;background:linear-gradient(120deg,#fff3ee,#ffe3da);box-shadow:0 1px 2px rgba(120,60,50,.06)}
 .relrow .k{color:#8a5a52!important}
 :root.dark .relrow{background:linear-gradient(120deg,rgba(242,155,136,.16),rgba(242,155,136,.08));color:#f6d9d2}
 :root.dark .relrow .k{color:#cfa79f!important}
-.relrow .ri{width:38px;height:38px;border-radius:12px;background:#f29b88;color:#fff;display:grid;place-items:center;flex:none;box-shadow:0 4px 12px rgba(242,155,136,.45)}
+.relrow .ri{background:#f29b88;color:#fff;box-shadow:0 4px 12px rgba(242,155,136,.45)}
 :root.dark .relrow .ri{background:#e8806f;color:#fff}
 .relrow b{font-weight:600}
 
@@ -853,7 +928,7 @@ body.boot .tabs{opacity:0;filter:blur(6px)}
 .tdeco{position:absolute;right:-26px;top:-22px;width:150px;height:150px;pointer-events:none}
 :root.dark .tdeco{opacity:.55}
 .ttop{position:relative;display:flex;align-items:center;justify-content:space-between}
-.tchip{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;padding:6px 11px;border-radius:20px;background:rgba(255,255,255,.7);color:#9a5a2a}
+.tchip{white-space:nowrap;display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;padding:6px 11px;border-radius:20px;background:rgba(255,255,255,.7);color:#9a5a2a}
 :root.dark .tchip{background:rgba(255,255,255,.1);color:#ffd29a}
 .tdate{font-size:12px;opacity:.6;font-weight:500;margin-right:64px}
 .tiptile p{position:relative;font-size:17px;line-height:1.45;font-weight:500;margin-top:14px;max-width:30ch;letter-spacing:-.005em;text-wrap:pretty}
@@ -904,7 +979,8 @@ html.touring,html.touring body{overflow:hidden;overscroll-behavior:none}
         <span class="greet" id="greet" hidden></span>
         <span class="habwrap"><button class="habbtn" id="habBtn" onclick="toggleHabMenu()" aria-haspopup="true" aria-expanded="false"><span id="habBtnT">Травка</span><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button>
           <div class="habmenu" id="habMenu" role="menu"></div></span>
-        <span style="display:flex;gap:8px">
+        <span style="display:flex;gap:8px;align-items:center">
+        <button class="plusbadge" id="plusBadge" hidden onclick="openHub()" aria-label="Твой Плюс"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7L12 17.3 5.8 20.9l1.6-7L2 9.2l7.1-.6z"/></svg>Плюс</button>
         <button class="glassbtn" aria-label="Поддержать проект" onclick="openSheet('donSheet')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 9h12v5a5 5 0 01-5 5H9a5 5 0 01-5-5V9z"/><path d="M16 10h1.5a2.5 2.5 0 010 5H16M8 3c0 1.5 1 1.5 1 3M12 3c0 1.5 1 1.5 1 3"/></svg></button>
         <button class="glassbtn" aria-label="Настройки" onclick="openSettings()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg></button>
         </span>
@@ -927,6 +1003,15 @@ html.touring,html.touring body{overflow:hidden;overscroll-behavior:none}
       <div id="quickMood"><div class="moods" id="qmoods"></div></div>
     </div>
 
+    <button class="tile qact cravtile" id="cravTile" onclick="openCrav()">
+      <span class="ci"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M3 10c1.8-2.4 3.6-2.4 5.4 0s3.6 2.4 5.4 0 3.6-2.4 5.4 0"/><path d="M3 15.5c1.8-2.4 3.6-2.4 5.4 0s3.6 2.4 5.4 0 3.6-2.4 5.4 0" opacity=".5"/></svg></span>
+      <b>Тянет</b><span class="k" id="cravK">отметить и подышать</span>
+    </button>
+    <button class="tile qact relrow" onclick="openRelapse()">
+      <span class="ri"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 109-9 9.7 9.7 0 00-6.7 2.8L3 8"/><path d="M3 3v5h5"/></svg></span>
+      <b>Был срыв</b><span class="k">дни сохранятся</span>
+    </button>
+
     <div class="tile wide tiptile" id="tipTile">
       <svg class="tdeco" viewBox="0 0 160 160" aria-hidden="true"><defs><radialGradient id="tdg"><stop offset="0" stop-color="#ffd27a" stop-opacity=".75"/><stop offset="1" stop-color="#ffd27a" stop-opacity="0"/></radialGradient></defs>
         <circle cx="110" cy="50" r="70" fill="url(#tdg)"/><g fill="none" stroke="#e8a35a" stroke-width="2.2" stroke-linecap="round" opacity=".55"><path d="M110 22v-12M138 34l8-8M150 62h12M82 34l-8-8M70 62H58"/></g>
@@ -940,11 +1025,6 @@ html.touring,html.touring body{overflow:hidden;overscroll-behavior:none}
     <div class="tile" id="moneyTile"><div class="v num" id="money">0 ₽</div><div class="k">остались у тебя</div><div id="goalBox"></div></div>
     <div class="tile" id="totalTile"><div class="v num" id="total">0</div><div class="k">всего чистых дней</div></div>
     <div class="tile wide jpath" id="pathTile" style="display:none"></div>
-    <button class="tile wide relrow" onclick="openRelapse()">
-      <span class="ri"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 109-9 9.7 9.7 0 00-6.7 2.8L3 8"/><path d="M3 3v5h5"/></svg></span>
-      <span style="flex:1;text-align:left"><b>Случился срыв</b><span class="k" style="display:block">Отметь честно — все трезвые дни сохранятся</span></span>
-      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--muted)"><path d="M9 6l6 6-6 6"/></svg>
-    </button>
 
     <div class="tile wide" id="xhTile" style="display:none"><div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px"><h2 style="font-size:16px">Другие привычки</h2><button class="link" style="padding:0;font-size:14px" onclick="openX()">Изменить</button></div><div class="xh" id="xhBox"></div></div>
 
@@ -1029,6 +1109,26 @@ html.touring,html.touring body{overflow:hidden;overscroll-behavior:none}
   <button class="btn" onclick="saveCheck()">Отметить день</button>
 </div>
 
+<div class="sheet" id="cravSheet" role="dialog" aria-label="Тянет прямо сейчас">
+  <div class="grab"></div>
+  <div id="cvStep1">
+    <h2 style="font-size:22px;margin-bottom:6px">Насколько сильно тянет?</h2>
+    <p class="muted" style="font-size:14px;margin:0 0 16px">Тяга — это волна. Она поднимается и обязательно спадает.</p>
+    <div class="cvlvl" id="cvLvl"></div>
+    <div class="field" style="margin-top:18px"><label>Что сейчас происходит</label><div class="chips" id="cvTrig"></div></div>
+    <p class="cvnote" id="cvNote"></p>
+    <button class="btn" id="cvSave" onclick="saveCrav()">Отметить</button>
+  </div>
+  <div id="cvStep2" style="display:none;text-align:center">
+    <div class="cvok"><svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+    <h2 style="font-size:21px;margin:12px 0 6px" id="cvT2">Записал</h2>
+    <p class="muted" style="font-size:15px;line-height:1.5;margin:0 auto 18px;max-width:320px">Обычно тяга спадает за 15–20 минут. Подышим вместе три минуты?</p>
+    <button class="btn" onclick="cravBreathe()">Подышать</button>
+    <div style="height:8px"></div>
+    <button class="btn quiet" onclick="closeSheets()">Не сейчас</button>
+  </div>
+</div>
+
 <!-- настройки -->
 <div class="sheet" id="setSheet" role="dialog" aria-label="Настройки">
   <div class="grab"></div>
@@ -1072,36 +1172,53 @@ html.touring,html.touring body{overflow:hidden;overscroll-behavior:none}
 <div class="sheet" id="plusSheet" role="dialog" aria-label="День за днём Плюс">
   <div class="plushead">
     <div class="grab" style="background:rgba(255,255,255,.4)"></div>
-    <span class="tag" style="background:rgba(255,255,255,.22);color:#fff">7 дней бесплатно</span>
-    <h1 style="font-size:28px;margin-top:12px">Пойми свою тягу —<br>и будь на шаг впереди</h1>
-    <p>Плюс находит закономерности в твоих отметках и поддерживает заранее, а не когда уже тяжело.</p>
-    <div class="pvis">
-      <div class="pbars"><i style="height:30%"></i><i style="height:42%"></i><i style="height:28%"></i><i style="height:50%"></i><i class="hot" style="height:92%"></i><i class="hot" style="height:78%"></i><i style="height:36%"></i></div>
+    <span class="tag" style="background:rgba(255,255,255,.2);color:#fff">7 дней бесплатно</span>
+    <h1 class="phh">Будь на шаг<br>впереди тяги</h1>
+    <p>Плюс замечает, когда тебе труднее, и поддерживает заранее — пока ещё легко.</p>
+    <div class="pfc">
+      <div class="pfct"><b>Твоя неделя</b><span class="pfchip"><i></i>Пт, вечер</span></div>
+      <div class="pbars"><i style="height:30%"></i><i style="height:42%"></i><i style="height:28%"></i><i style="height:50%"></i><i class="hot" style="height:92%"></i><i class="hot" style="height:74%"></i><i style="height:36%"></i></div>
       <div class="pdays"><span>Пн</span><span>Вт</span><span>Ср</span><span>Чт</span><span>Пт</span><span>Сб</span><span>Вс</span></div>
-      <div class="pnote">Пример: тяга сильнее по пятницам вечером, чаще после стресса. В четверг приложение подскажет твой план.</div>
+      <div class="pbub"><span class="pbi"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0112 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 003.4 0"/></svg></span><span>Завтра вечером обычно тяжелее. Твой план и письмо себе уже готовы.</span></div>
     </div>
   </div>
 
-  <h2 style="margin:4px 0 6px">Что откроется</h2>
-  <div class="feat"><div class="fi"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg></div><div><b>Карта тяги</b><span>Дни, часы и ситуации, когда тянет сильнее, и что тебе помогает</span></div></div>
-  <div class="feat"><div class="fi"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 18a5 5 0 01-.6-9.96A6 6 0 0118 9a4 4 0 01-1 7.9"/><path d="M12 13v4M10 15l2 2 2-2"/></svg></div><div><b>Прогноз трудных дней</b><span>Подскажет заранее, какой день обычно труднее и что поможет</span></div></div>
-  <div class="feat"><div class="fi"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M4 7l8 6 8-6"/></svg></div><div><b>Письмо себе</b><span>Напиши себе в хороший день — оно откроется, когда станет трудно</span></div></div>
-  <div class="feat"><div class="fi"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19c-4 0-8-2-9-6 3 0 6 1 9 4 3-3 6-4 9-4-1 4-5 6-9 6z"/><path d="M12 17c-2-3-2-7 0-11 2 4 2 8 0 11z"/></svg></div><div><b>Курс медитаций «Серфинг тяги»</b><span>7 занятий для выздоровления плюс практики «После срыва», «Перед сном», «Утренний настрой»</span></div></div>
-  <div class="feat"><div class="fi"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9h11a3 3 0 10-3-3M3 15h15a3 3 0 11-3 3M3 12h8"/></svg></div><div><b>Больше дыхательных практик</b><span>Дыхание 4-7-8 для сильной тяги и мягкая «Волна» 5-5</span></div></div>
-  <div class="feat"><div class="fi"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r=".8" fill="currentColor"/></svg></div><div><b>Цель на сэкономленное</b><span>Поставь мечту — и смотри, как к ней ведут чистые дни</span></div></div>
-  <div class="feat"><div class="fi"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l9 5-9 5-9-5 9-5z"/><path d="M3 13l9 5 9-5"/></svg></div><div><b>Несколько привычек</b><span>Отдельные счётчики, например алкоголь и курение</span></div></div>
-  <div class="feat"><div class="fi"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="9" r="3"/><circle cx="17" cy="9" r="3"/><path d="M2 20c.8-3.5 3-5 6-5s5.2 1.5 6 5M14 15.5c.9-.3 1.9-.5 3-.5 3 0 5.2 1.5 6 5"/></svg></div><div><b>Отчёт для близкого или специалиста</b><span>Прогресс за месяц одной ссылкой — только когда сам захочешь</span></div></div>
-  <div class="feat"><div class="fi"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18c3-8 6-11 9-11s6 3 9 11"/><path d="M6 18c2-5 4-7 6-7s4 2 6 7"/><circle cx="18" cy="5" r="1" fill="currentColor"/><circle cx="6" cy="6" r=".8" fill="currentColor"/></svg></div><div><b>Новые небеса</b><span>Северное сияние, горы, море — твой путь в другом пейзаже</span></div></div>
+  <h2 class="psec">Три инструмента, которые работают на тебя</h2>
 
-  <div class="cmp">
-    <div class="ch"><span></span><span>Бесплатно</span><span>Плюс</span></div>
-    <div><span>Счётчик, путь, дневник</span><span>✓</span><span>✓</span></div>
-    <div><span>«Мне тяжело» и дыхание</span><span>✓</span><span>✓</span></div>
-    <div><span>Карта тяги и прогноз</span><span>—</span><span>✓</span></div>
-    <div><span>Письмо себе</span><span>—</span><span>✓</span></div>
-    <div><span>Курс медитаций</span><span>1 занятие</span><span>✓</span></div>
-    <div><span>Все дыхательные практики и небеса</span><span>2</span><span>✓</span></div>
+  <div class="pk pk1">
+    <div class="pkh"><span class="pki"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg></span><b>Карта тяги и прогноз</b></div>
+    <p>Отмечай тягу в одно касание. Плюс найдёт твои трудные дни и триггеры — и предупредит заранее.</p>
+    <div class="pkv">
+      <div class="ptr"><em>Стресс</em><span><i style="width:82%"></i></span><small>8.2</small></div>
+      <div class="ptr"><em>Одиночество</em><span><i style="width:65%"></i></span><small>6.5</small></div>
+      <div class="ptr"><em>Скука</em><span><i style="width:41%"></i></span><small>4.1</small></div>
+    </div>
   </div>
+
+  <div class="pk pk2">
+    <div class="pkh"><span class="pki"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M4 7l8 6 8-6"/></svg></span><b>Письмо себе</b></div>
+    <p>Напиши в хороший день. Оно откроется в «Тяжело», когда тянет сильнее всего, — твоими словами.</p>
+    <div class="pletter"><q>Помнишь, ради чего ты начал? Эта волна пройдёт, как проходили все до неё.</q><small>— ты, три недели назад</small></div>
+  </div>
+
+  <div class="pk pk3">
+    <div class="pkh"><span class="pki"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12c2-3 4-3 6 0s4 3 6 0 4-3 6 0"/><path d="M2 17c2-3 4-3 6 0s4 3 6 0 4-3 6 0" opacity=".5"/></svg></span><b>Курс «Серфинг тяги»</b></div>
+    <p>Семь коротких занятий с голосом и звуками природы. Учишься проживать тягу, а не воевать с ней.</p>
+    <div class="pcourse"><div class="pseg"><i class="on"></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      <div class="pchips"><span>Лес</span><span>Море</span><span>Дождь</span><span>Ночь</span></div></div>
+  </div>
+
+  <h2 class="psec">И ещё</h2>
+  <div class="pmini">
+    <div><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9h11a3 3 0 10-3-3M3 15h15a3 3 0 11-3 3M3 12h8"/></svg><b>Дыхание 4-7-8 и «Волна»</b><span>для сильной тяги и перед сном</span></div>
+    <div><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r=".8" fill="currentColor"/></svg><b>Цель на сэкономленное</b><span>видно, как копится на мечту</span></div>
+    <div><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l9 5-9 5-9-5 9-5z"/><path d="M3 13l9 5 9-5"/></svg><b>Несколько зависимостей</b><span>свой счётчик для каждой</span></div>
+    <div><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H6a2 2 0 00-2 2v14a2 2 0 002 2h12a2 2 0 002-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg><b>Отчёт за месяц</b><span>можно отправить близкому</span></div>
+    <div><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12c2-3 4-3 6 0s4 3 6 0 4-3 6 0"/></svg><b>Моменты тяги</b><span>каждая пережитая волна на счету</span></div>
+    <div><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18c3-8 6-11 9-11s6 3 9 11"/><circle cx="18" cy="5" r="1" fill="currentColor"/></svg><b>Новые небеса</b><span>другие темы главного экрана</span></div>
+  </div>
+
+  <p class="pfree">Всё для трудной минуты — счётчик, дневник, «Тяжело» и дыхание — бесплатно навсегда. Плюс помогает идти дальше и держит проект без рекламы.</p>
 
   <div class="plans3">
     <button class="plan" data-p="plus_month" onclick="pickPlan(this)"><small>Месяц</small><b class="num">75<svg class="star" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7L12 17.3 5.8 20.9l1.6-7L2 9.2l7.1-.6z"/></svg></b><small>≈ 150 ₽</small></button>
@@ -1115,7 +1232,6 @@ html.touring,html.touring body{overflow:hidden;overscroll-behavior:none}
   <button class="btn quiet" onclick="buyGift()">Подарить Плюс близкому — год</button>
   <button class="link" id="codeLink" style="display:block;margin:10px auto 0" onclick="$('codeBox').classList.toggle('on')">У меня есть код подарка</button>
   <div class="codebox" id="codeBox"><input type="text" id="giftCode" placeholder="Код из 8 символов" autocomplete="off" maxlength="12"><button class="btn" onclick="redeemGift()">Активировать</button></div>
-  <p class="muted" style="text-align:center;font-size:13px;margin:16px auto 0;max-width:34ch">Помощь в трудную минуту — счётчик, дневник, «Мне тяжело» и дыхание — бесплатна всегда. Плюс помогает развивать приложение.</p>
 </div>
 
 
@@ -1465,7 +1581,7 @@ const TRIG = ['Стресс','Скука','Одиночество','Компан
 const HABITS = [['Алкоголь','алкоголя'],['Курение','курения'],['Вейп','вейпа'],['Травка','травки'],['Наркотики','наркотиков'],['Стимуляторы','стимуляторов'],
   ['Таблетки без назначения','таблеток'],['Ставки','ставок'],['Казино и слоты','казино'],['Крипто-ставки','крипто-ставок'],['Компьютерные игры','игр'],['Соцсети и телефон','соцсетей'],
   ['Порно','порно'],['Энергетики','энергетиков'],['Кофеин','кофеина'],['Сладкое','сладкого'],['Импульсивные покупки','импульсивных покупок']];
-let S=null, J=[], R=[];
+let S=null, J=[], R=[], C=[];
 
 function word(n){ const a=n%10,b=n%100; if(a===1&&b!==11) return 'день'; if(a>=2&&a<=4&&(b<10||b>=20)) return 'дня'; return 'дней'; }
 function haptic(t){ try{ tg&&tg.HapticFeedback.impactOccurred(t||'light'); }catch(e){} }
@@ -1481,7 +1597,7 @@ const Q = { 0:'Первый день — самый смелый. Ты уже н
   2:'Если тяжело — это нормально. Это пройдёт.', 3:'Самые трудные дни часто именно в начале. Ты их проходишь.',
   7:'Неделя. Сон и настроение постепенно возвращаются в свой ритм.', 14:'Две недели. Ты знаешь о себе больше, чем две недели назад.',
   30:'Месяц — это твой выбор, повторённый 30 раз.', 60:'Новые привычки начинают держать тебя сами.', 90:'90 дней. Оглянись, какой путь ты прошёл.' };
-const QQ = ['Не нужно думать о «навсегда». Нужно пройти сегодня.','Одна волна тяги — не вся жизнь. Она проходит.',
+const QQ = ['Не думай о «навсегда». Твоя задача — только сегодняшний день.','Одна волна тяги — не вся жизнь. Она проходит.',
   'Позвони кому-нибудь из своих. Не обязательно говорить о трудном.','Еда, сон, вода, прогулка — простые вещи держат лучше всего.',
   'Ты не обязан быть идеальным. Ты просто идёшь дальше.'];
 function thought(d){ const k=Math.max(...Object.keys(Q).map(Number).filter(k=>k<=d)); return (d-k<=1)?Q[k]:QQ[d%QQ.length]; }
@@ -1650,7 +1766,7 @@ function renderPathTile(){ const t=$('pathTile'), tt=$('totalTile'); if(!R.lengt
     <div class="ptl">${segs.map(([k,v])=>`<i class="${k}" style="flex:${v}" title="${v} ${word(v)}"></i>`).join('')}</div>
     <p>Трезвые дни никуда не делись. Срыв — часть пути, а не его конец.</p>`; }
 function relapse(){ const keep=Math.max(0,streakDays()-(relD-1)); R.push({t:Date.now(),days:keep,relDays:relD,note:$('relNote').value.trim()}); store.set('relapses',R);
-  S.start=Date.now(); S.celebrated=0; store.set('settings',S); $('relNote').value=''; closeSheets(); render(); toast(`Твои ${totalDays()} ${word(totalDays())} трезвости с тобой`); }
+  S.start=Date.now(); S.celebrated=0; store.set('settings',S); $('relNote').value=''; closeSheets(); render(); { const td=totalDays(); toast(td?`Твои ${td} ${word(td)} трезвости с тобой`:'Начинаем заново. Ты здесь — и это главное'); } }
 function openPlus(){ plusSheetUI(); openSheet('plusSheet'); }
 function openCare(){ const c=$('care'), call=$('careCall'); if(S.phone){ call.style.display=''; call.href='tel:'+S.phone.replace(/[^+\d]/g,''); } else call.style.display='none';
   $('careLetter').style.display=S.plus&&S.letter&&S.letter.text?'':'none';
@@ -1682,13 +1798,31 @@ const TIP={'Стресс':'Оставь себе 10 минут на дыхани
   'Компания':'Реши заранее, куда не пойдёшь и что скажешь, если предложат.','Деньги':'Не носи с собой лишние деньги в этот день.','Усталость':'Поешь вовремя и ляг пораньше.',
   'Конфликт':'Если накипит — сначала выдох и пауза, потом разговор.','Праздник':'Возьми с собой своё питьё и план, когда уйти.','Плохой сон':'Меньше кофе после обеда, телефон подальше перед сном.'};
 const wdOf=t=>(new Date(t).getDay()+6)%7;
-function crMap(){ const E=J.filter(e=>typeof e.crav==='number'); if(E.length<5) return {need:5-E.length};
+function crMap(){ const E=[...J.filter(e=>typeof e.crav==='number'),...C]; if(E.length<5) return {need:5-E.length};
   const all=E.reduce((s,e)=>s+e.crav,0)/E.length, wk=[...Array(7)].map((_,w)=>{ const a=E.filter(e=>wdOf(e.t)===w); return {n:a.length,avg:a.length?a.reduce((s,e)=>s+e.crav,0)/a.length:0}; });
   const tr=TRIG.map(t=>{ const a=E.filter(e=>(e.trig||[]).includes(t)); return {t,n:a.length,avg:a.length?a.reduce((s,e)=>s+e.crav,0)/a.length:0}; }).filter(x=>x.n>=2).sort((a,b)=>b.avg-a.avg).slice(0,4);
   const hi=E.filter(e=>e.mood>=4), lo=E.filter(e=>e.mood<=2), av=a=>a.reduce((s,e)=>s+e.crav,0)/a.length;
   const hot=wk.map((x,i)=>({...x,i})).filter(x=>x.n>=2&&x.avg>=all+0.8).sort((a,b)=>b.avg-a.avg);
   const calm=wk.map((x,i)=>({...x,i})).filter(x=>x.n>=1).sort((a,b)=>a.avg-b.avg)[0];
   return {E,all,wk,tr,hot,calm,moodHi:hi.length>=2?av(hi):null,moodLo:lo.length>=2?av(lo):null}; }
+let cvVal=0;
+function openCrav(){ cvVal=0; $('cvStep1').style.display=''; $('cvStep2').style.display='none';
+  const L=[['Слегка',2],['Средне',4],['Сильно',6],['Очень',8],['Предел',10]];
+  $('cvLvl').innerHTML=L.map(([n,v],i)=>`<button type="button" data-v="${v}" style="--w:${(i+1)*20}%"><b>${i+1}</b><i></i><span>${n}</span></button>`).join('');
+  [...$('cvLvl').children].forEach(b=>b.onclick=()=>{ cvVal=+b.dataset.v; [...$('cvLvl').children].forEach(x=>x.classList.toggle('on',x===b)); haptic(); });
+  $('cvTrig').innerHTML=TRIG.map(t=>`<button type="button" class="chip">${t}</button>`).join(''); [...$('cvTrig').children].forEach(c=>c.onclick=()=>{c.classList.toggle('on');haptic();});
+  $('cvNote').textContent=S.plus?'':'В Плюсе такие моменты сохраняются в карту тяги — видно, когда и после чего тянет сильнее.';
+  $('cvSave').textContent=S.plus?'Отметить':'Дальше'; openSheet('cravSheet'); }
+let cvLast=null;
+function saveCrav(){ if(!cvVal){ toast('Выбери, насколько тянет'); return; }
+  cvLast=null; if(S.plus){ const e={t:Date.now(),crav:cvVal,trig:[...$('cvTrig').querySelectorAll('.on')].map(b=>b.textContent),src:'now'}; C.push(e); if(C.length>500) C=C.slice(-500); store.set('cravings',C); cvLast=e; renderCravK(); }
+  $('cvT2').textContent=S.plus?'Записал в карту тяги':'Ты заметил тягу — это уже шаг';
+  $('cvStep1').style.display='none'; $('cvStep2').style.display=''; haptic('medium'); }
+function cravBreathe(){ if(cvLast){ cvLast.br=1; store.set('cravings',C); } closeSheets(); setTimeout(openSos,250); }
+function renderCravK(){ const el=$('cravK'); if(!el) return; if(!S.plus){ el.textContent='отметить и подышать'; return; }
+  const k=dayKey(Date.now()), n=C.filter(e=>dayKey(e.t)===k).length; el.textContent=n?`сегодня: ${n} ${n===1?'раз':(n<5?'раза':'раз')}`:'отметить и подышать'; }
+function cravStat(){ if(!C.length) return ''; const b=C.filter(e=>e.br).length;
+  return `<div class="muted" style="font-size:13px;margin:8px 0 2px">Моментов тяги отмечено: ${C.length}${b?` · переждал с дыханием: ${b}`:''}</div>`; }
 function renderCmap(){ const on=!!S.plus; $('cmapTile').style.display=on?'':'none'; $('cmapLock').style.display=on?'none':''; if(!on) return;
   const m=crMap();
   if(m.need){ $('cmapTile').innerHTML=`<h2>Карта тяги</h2><p class="muted" style="font-size:14px;margin-top:6px">Отметь ещё ${m.need} ${word(m.need)} с тягой — и здесь появятся твои закономерности: в какие дни и после чего тянет сильнее.</p>`; return; }
@@ -1701,7 +1835,7 @@ function renderCmap(){ const on=!!S.plus; $('cmapTile').style.display=on?'':'non
   const trs=m.tr.length?`<h2 style="font-size:15px;margin-top:16px">После чего тянет сильнее</h2>`+m.tr.map(x=>`<div class="trow"><em>${x.t}</em><span class="tb"><i style="width:${x.avg*10}%"></i></span><small>${x.avg.toFixed(1)}</small></div>`).join('')
     :`<p class="muted" style="font-size:13px;margin-top:14px">Отмечай, что влияло на день, — здесь появятся твои триггеры.</p>`;
   $('cmapTile').innerHTML=`<div style="display:flex;justify-content:space-between;align-items:baseline"><h2>Карта тяги</h2><span class="muted" style="font-size:12px">${m.E.length} ${word(m.E.length).replace('день','отметка').replace('дня','отметки').replace('дней','отметок')}</span></div>
-    <div class="wk">${bars}</div>${trs}<div class="ins">${ins.map(x=>`<div>${x}</div>`).join('')}</div>`; }
+    ${cravStat()}<div class="wk">${bars}</div>${trs}<div class="ins">${ins.map(x=>`<div>${x}</div>`).join('')}</div>`; }
 function renderForecast(){ const el=$('fcTile'); if(!S.plus){ el.style.display='none'; return; } const m=crMap(); if(m.need||!m.hot.length){ el.style.display='none'; return; }
   const today=wdOf(Date.now()), tom=(today+1)%7, h=m.hot.find(x=>x.i===today)||m.hot.find(x=>x.i===tom); if(!h){ el.style.display='none'; return; }
   const isT=h.i===today, tt=m.tr[0]?m.tr[0].t:null, tip=tt&&TIP[tt]?TIP[tt]:'Запланируй что-то хорошее и держи телефон близкого под рукой.';
@@ -1715,7 +1849,7 @@ function renderGoal(){ const g=S.goal, b=$('goalBox'); if(!S.plus||!g||!g.price)
   b.innerHTML=`<div class="gbar"><i style="width:${(k*100).toFixed(1)}%"></i></div><div class="gtxt">${k>=1?`Хватает на «${esc(g.name)}»`:`До «${esc(g.name)}» — ${(g.price-m).toLocaleString('ru-RU')} ₽`}</div>`; }
 function renderX(){ const X=S.extra||[], t=$('xhTile'); if(!S.plus||!X.length){ t.style.display='none'; return; } t.style.display='';
   $('xhBox').innerHTML=X.map(x=>{ const d=Math.max(0,Math.floor((Date.now()-x.start)/DAY)); return `<div class="xi" onclick="setHero(${X.indexOf(x)+1});window.scrollTo({top:0,behavior:'smooth'})"><span>${esc(cap(x.name))}</span><b>${d}</b><span>${word(d)} подряд</span></div>`; }).join(''); }
-function renderPlusRow(){ const on=!!S.plus; $('plusRow').classList.toggle('active',on);
+function renderPlusRow(){ const on=!!S.plus; { const pb=$('plusBadge'); if(pb) pb.hidden=!on; } renderCravK(); $('plusRow').classList.toggle('active',on);
   $('pdot').innerHTML=on?'<svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7L12 17.3 5.8 20.9l1.6-7L2 9.2l7.1-.6z"/></svg>':'';
   $('plusRowT').textContent=on?'Твой Плюс':'День за днём Плюс'; $('plusRowK').textContent=on?'Письмо себе, цель, привычки, небо, отчёт':'Карта тяги, письмо себе, цель, новые небеса'; }
 function renderPlusAll(){ renderPlusRow(); renderForecast(); renderGoal(); renderX(); }
@@ -1954,10 +2088,11 @@ function tipOfDay(gen){ const cat=TIPCAT[gen], own=cat?TIPS[cat]:[], pool=[]; ow
 const TOUR=[['#cntwrap','Твои дни','Здесь счётчик. Нажми на цифру или проведи пальцем — увидишь часы и минуты.'],
  ['#habBtn','Твоя зависимость','Нажми, чтобы сменить её или добавить ещё одну.'],
  ['#checkRow','Отмечай день','Выбирай настроение и силу тяги. Через пару недель станет видно, что тебе помогает.'],
+ ['#cravTile','Тянет прямо сейчас','Отметь, насколько сильно, — и подыши вместе с кругом. Волна пройдёт.'],
+ ['.relrow','Если случился срыв','Отметь честно: счётчик начнётся заново, а трезвые дни сохранятся.'],
  ['#tipTile','Совет на сегодня','Каждый день новый совет для твоей зависимости.'],
  ['.sostab','Если тянет','Нажми «Тяжело»: дыхание, 15 минут и твои причины. Это бесплатно всегда.'],
- ['.tabs button[data-s="practice"]','Практики','Короткие медитации с голосом и звуками природы.'],
- ['.relrow','Если случился срыв','Отметь честно: счётчик начнётся заново, а трезвые дни сохранятся.']];
+ ['.tabs button[data-s="practice"]','Практики','Короткие медитации с голосом и звуками природы.']];
 let tIx=0;
 function startTour(){ if($('party').classList.contains('on')||$('onb').classList.contains('on')){ setTimeout(startTour,800); return; }
   closeSheets(); if($('sos').classList.contains('on')) closeSos(true); if($('med').classList.contains('on')) closeMed(); toggleHabMenu&&$('habMenu').classList.remove('on');
@@ -1991,7 +2126,7 @@ const fmtDate=t=>new Date(t).toLocaleDateString('ru-RU',{day:'numeric',month:'lo
 function plusSheetUI(){ const st=$('plusStat'); if(!st) return; const sel=document.querySelector('.plan.on'), stars=sel?sel.querySelector('b').textContent.replace(/\D/g,''):'';
   st.textContent=S.plus?(S.plusForever?'Плюс у тебя навсегда':(S.plusUntil?`Плюс активен до ${fmtDate(S.plusUntil)}`:'Плюс активен')):'';
   $('buyBtn').innerHTML=(S.plus&&!S.plusForever?'Продлить за ':'Оформить за ')+stars+' ⭐';
-  $('trialBtn').style.display=(S.plus||S.trialUsed)?'none':''; $('buyBtn').style.display=S.plusForever?'none':''; }
+  $('trialBtn').style.display=(S.plus||S.trialUsed)?'none':''; { const tr=!(S.plus||S.trialUsed); $('trialBtn').className='btn'+(tr?'':' quiet'); $('buyBtn').className='btn'+(tr?' quiet':''); $('trialBtn').style.marginTop='0'; $('buyBtn').style.marginTop=tr?'8px':''; if(tr) $('trialBtn').after($('buyBtn')); else $('buyBtn').after($('trialBtn')); } $('buyBtn').style.display=S.plusForever?'none':''; }
 function payOutside(){ toast(inTg?'Оплата скоро заработает':'Оплата работает в приложении внутри Telegram'); }
 async function openPay(product,onPaid,btn){ if(!payReady()){ payOutside(); return; } btn&&btn.classList.add('loading');
   try{ const {link}=await apiCall('/api/invoice',{product}); tg.openInvoice(link,status=>{ btn&&btn.classList.remove('loading'); if(status==='paid'){ notify(); onPaid&&onPaid(); } else if(status==='failed') toast('Оплата не прошла. Попробуй ещё раз'); }); }
@@ -2700,7 +2835,7 @@ function hideSplash(now){ if(splashGone) return; const wait=now===true?0:Math.ma
 
 const tgName = tg && tg.initDataUnsafe && tg.initDataUnsafe.user ? tg.initDataUnsafe.user.first_name : '';
 (async()=>{
-  S=await store.get('settings'); if(S&&S.unit&&S.unit<3) unitIx=S.unit; J=(await store.get('journal'))||[]; R=(await store.get('relapses'))||[];
+  S=await store.get('settings'); if(S&&S.unit&&S.unit<3) unitIx=S.unit; J=(await store.get('journal'))||[]; R=(await store.get('relapses'))||[]; C=(await store.get('cravings'))||[];
   moodButtons($('qmoods'),v=>openCheck(v)); moodButtons($('smoods'),v=>{ moodV=v; [...$('smoods').children].forEach(b=>b.classList.toggle('on',+b.dataset.v===v)); haptic(); });
   qi=new Date().getDate()%QUOTES.length; renderQuote();
   if(!S){ $('onb').classList.add('on'); renderOb(); S={habit:'',start:Date.now(),cost:0,reasons:[]}; }
