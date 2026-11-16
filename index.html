@@ -167,6 +167,19 @@ html{background:var(--bg)}
 .cvadv p+p{margin-top:8px}
 .cvrow{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
 .cvrow .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-size:15px;padding-left:8px;padding-right:8px}
+.cvwave{margin-top:12px;border-radius:20px;padding:14px 16px;background:linear-gradient(150deg,#fff3ec,#fde9f0);color:#6a3346;text-align:left}
+:root.dark .cvwave{background:linear-gradient(150deg,rgba(240,160,124,.16),rgba(228,127,143,.08));color:#f6d4dc}
+.cvwave b{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:600}
+.cvwave b i{width:8px;height:8px;border-radius:50%;background:#e8807f;flex:none;animation:pfpulse 1.6s ease-in-out infinite}
+.cvwave small{display:block;font-size:13px;opacity:.75;margin:4px 0 10px}
+.wchips{display:flex;flex-wrap:wrap;gap:6px}
+.wchips button{border:0;border-radius:12px;padding:7px 12px;font:600 13px Onest,sans-serif;background:rgba(255,255,255,.75);color:#8a3f55;cursor:pointer}
+:root.dark .wchips button{background:rgba(255,255,255,.12);color:#ffd0dc}
+.wchips button.sent{opacity:.55}
+.sosw{margin:10px auto 0;font-size:14px;opacity:.85;text-align:center;min-height:0}
+.sosw:empty{display:none}
+.sosw i{display:inline-block;width:7px;height:7px;border-radius:50%;background:#ff9f8a;margin-right:6px;vertical-align:middle;animation:pfpulse 1.6s ease-in-out infinite}
+.storybtn{display:block;margin:12px auto 0;border:1px solid rgba(255,255,255,.5);background:rgba(255,255,255,.12);color:#fff;border-radius:20px;padding:11px 22px;font:600 15px Onest,sans-serif;cursor:pointer}
 .cvok{width:56px;height:56px;border-radius:50%;margin:6px auto 0;display:grid;place-items:center;color:#fff;background:linear-gradient(135deg,#6f86e8,#a58ae0)}
 .plusbadge{display:inline-flex;align-items:center;gap:5px;height:40px;padding:0 13px 0 11px;border-radius:20px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.28);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);color:inherit;font:600 14px Onest,sans-serif;cursor:pointer}
 .plusbadge svg{width:14px;height:14px;color:#ffc65c}
@@ -1153,6 +1166,7 @@ html.touring,html.touring body{overflow:hidden;overscroll-behavior:none}
     <div class="cvok"><svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
     <h2 style="font-size:21px;margin:12px 0 6px" id="cvT2">Записал</h2>
     <div class="cvadv" id="cvAdv"></div>
+    <div class="cvwave" id="cvWave" style="display:none"></div>
     <p class="muted" style="font-size:14px;line-height:1.5;margin:14px auto 14px;max-width:320px">Обычно тяга спадает за 15–20 минут. Подышим вместе три минуты?</p>
     <button class="btn" onclick="cravBreathe()">Подышать</button>
     <div style="height:8px"></div><button class="btn quiet" onclick="closeSheets()">Не сейчас</button>
@@ -1174,6 +1188,7 @@ html.touring,html.touring body{overflow:hidden;overscroll-behavior:none}
   <button class="btn" onclick="saveSettings()">Сохранить</button>
   <div class="setlinks">
     <button class="hubrow" onclick="closeSheets();setTimeout(()=>S.plus?openHub():openPlus(),250)"><span class="hi"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7L12 17.3 5.8 20.9l1.6-7L2 9.2l7.1-.6z"/></svg></span><span><b id="setPlusT">Плюс</b><small id="setPlusS">Письмо себе, цель, привычки, небо</small></span><svg class="chev" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></button>
+    <button class="hubrow" onclick="inviteFriend()"><span class="hi" style="background:linear-gradient(135deg,#ffd27a,#ff9f8a);color:#4a2a10"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12v9H4v-9M2 7h20v5H2zM12 21V7M12 7H7.5a2.5 2.5 0 010-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 000-5C13 2 12 7 12 7z"/></svg></span><span><b>Позови друга</b><small>Неделя Плюса вам обоим</small></span><svg class="chev" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></button>
     <button class="hubrow" onclick="openBug('Идея')"><span class="hi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 21h4M12 3a6 6 0 00-3.5 10.9c.6.4 1 1.1 1 1.8V16h5v-.3c0-.7.4-1.4 1-1.8A6 6 0 0012 3z"/></svg></span><span><b>Чего не хватает?</b><small>Предложи идею — автор читает каждое сообщение</small></span><svg class="chev" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></button>
     <button class="hubrow" onclick="closeSheets();setTimeout(openNew,250)"><span class="hi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.4 5.6L20 9.3l-4.3 3.9 1.3 5.8L12 16l-5 3 1.3-5.8L4 9.3l5.6-.7z"/></svg></span><span><b>Что нового</b><small id="setVer">Версия</small></span><svg class="chev" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></button>
     <button class="hubrow" onclick="closeSheets();setTimeout(startTour,300)"><span class="hi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 015 .5c0 1.7-2.5 2-2.5 3.5M12 17h.01"/></svg></span><span><b>Как пользоваться</b><small>Короткое обучение по главному экрану</small></span><svg class="chev" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></button>
@@ -1351,6 +1366,7 @@ html.touring,html.touring body{overflow:hidden;overscroll-behavior:none}
   <div class="sospane on" id="pBreath">
     <h1 class="fade">Дыши вместе с кругом</h1>
     <p class="fade">Тяга приходит волной и обычно спадает за 15–20 минут. Несколько минут дыхания помогают её переждать.</p>
+    <div class="sosw" id="sosWave"></div>
     <div class="breathwrap" id="orbTap" onclick="if(!breathing) toggleBreath()" role="button" aria-label="Начать дыхание"><canvas id="orb" width="600" height="600"></canvas></div>
     <div class="phase"><span class="pn" id="pn">Коснись круга, чтобы начать</span><span class="ps num" id="ps"></span></div>
     <div class="bprog" id="bprog"></div>
@@ -1590,6 +1606,7 @@ html.touring,html.touring body{overflow:hidden;overscroll-behavior:none}
   <h1 id="ptitle">7 дней</h1>
   <p id="ptext">Неделя — это настоящий результат.</p>
   <button class="startbtn">Спасибо</button>
+  <button id="partyStory" class="storybtn" onclick="event.stopPropagation();shareStory()">Выложить в сторис</button>
   <button id="partyPlus" class="link" style="color:#ffd29a;margin-top:12px;display:none" onclick="event.stopPropagation();closeParty();openPlus()">Посмотреть свою карту тяги в Плюсе</button>
 </div>
 
@@ -1902,11 +1919,34 @@ function shareDay(){ const d=streakDays(), k=dayKey(Date.now()), n=(C||[]).filte
   let t=d?`Уже ${d} ${word(d)} без ${S.habit}.`:`Сегодня мой первый день без ${S.habit}.`; if(n) t+=` Тянуло ${n} ${n===1?'раз':(n<5?'раза':'раз')} — и я справляюсь.`; t+=' Иду день за днём.';
   const url='https://t.me/share/url?url='+encodeURIComponent(BOT_LINK)+'&text='+encodeURIComponent(t);
   if(tg&&tg.openTelegramLink) tg.openTelegramLink(url); else if(navigator.share) navigator.share({text:t+' '+BOT_LINK}).catch(()=>{}); else window.open(url,'_blank'); haptic(); }
+// ---- «Волна вместе» ----
+const ppl=n=>{ const a=n%10,b=n%100; return (a>=2&&a<=4&&(b<10||b>=20))?'человека':'человек'; };
+const WPH=['Держись, это пройдёт','Я тоже здесь','Мы справимся','Ты не один'];
+let waveAt=0, waveShown=0; try{ waveAt=+sessionStorage.getItem('waveAt')||0; }catch(e){}
+async function waveCall(path){ if(!payReady()) return null; try{ return await apiCall(path); }catch(e){ return null; } }
+async function waveStart(where){ const st=await waveCall('/api/wave/start'); if(!st) return; waveAt=Date.now(); waveShown=0; try{ sessionStorage.setItem('waveAt',String(waveAt)); }catch(e){}
+  const n=st.others, line=n?`Прямо сейчас ещё ${n} ${ppl(n)} ${n%10===1&&n%100!==11?'переживает':'переживают'} тягу вместе с тобой`:'Ты не один: здесь каждый день кто-то справляется с тягой';
+  if(where==='sos'){ $('sosWave').innerHTML=n?`<i></i>Сейчас вместе с тобой держатся ещё ${n}`:''; return; }
+  const el=$('cvWave'); el.style.display=''; el.innerHTML=`<b><i></i>${line}</b><small>${n?'Поддержи их — анонимно, одной фразой':'Когда кто-то будет рядом, ты увидишь это здесь'}</small>${n?`<div class="wchips">${WPH.map(p=>`<button type="button" onclick="waveCheer(this)">${p}</button>`).join('')}</div>`:''}`; }
+async function waveCheer(b){ if(b.classList.contains('sent')) return; [...b.parentNode.children].forEach(x=>x.classList.add('sent')); b.textContent='Отправлено'; haptic('medium'); await waveCall('/api/wave/cheer'); }
+async function waveCheck(){ if(!waveAt||Date.now()-waveAt>30*60000) return; const st=await waveCall('/api/wave/status'); if(!st||!st.cheers||st.cheers<=waveShown) return;
+  waveShown=st.cheers; toast(`Тебя поддержали ${st.cheers} ${ppl(st.cheers)}. Ты не один`); }
+document.addEventListener('visibilitychange',()=>{ if(!document.hidden) setTimeout(waveCheck,1200); });
+// ---- сторис на рубеж ----
+function shareStory(){ const m=S.celebrated||streakDays(); if(![1,3,7,14,30,60,90,180,365].includes(m)){ shareDay(); return; } const img=(location.origin+location.pathname).replace(/index\.html$/,'')+'story_'+m+'.jpg';
+  const text=`${m} ${word(m)} без ${S.habit}. Иду день за днём`;
+  if(tg&&tg.shareToStory&&tg.isVersionAtLeast&&tg.isVersionAtLeast('7.8')){ try{ tg.shareToStory(img,{text,widget_link:{url:BOT_LINK,name:'День за днём'}}); closeParty(); return; }catch(e){} }
+  shareDay(); }
+// ---- позови друга ----
+async function inviteFriend(){ let link=BOT_LINK; const r=await waveCall('/api/ref'); if(r&&r.link) link=r.link;
+  const t='Я пользуюсь «День за днём» — считаю трезвые дни и справляюсь с тягой. По моей ссылке тебе неделя Плюса в подарок:';
+  const url='https://t.me/share/url?url='+encodeURIComponent(link)+'&text='+encodeURIComponent(t);
+  if(tg&&tg.openTelegramLink) tg.openTelegramLink(url); else window.open(url,'_blank'); haptic(); }
 let cvLast=null;
 function saveCrav(){ if(!cvVal){ toast('Выбери, насколько тянет'); return; }
   cvLast=null; const trigs=[...$('cvTrig').querySelectorAll('.on')].map(b=>b.textContent); $('cvAdv').innerHTML=cravAdvice(cvVal,trigs); if(S.plus){ const e={t:Date.now(),crav:cvVal,trig:trigs,src:'now'}; C.push(e); if(C.length>500) C=C.slice(-500); store.set('cravings',C); cvLast=e; renderCravK(); }
   $('cvT2').textContent=S.plus?'Записал в карту тяги':'Ты заметил тягу — это уже шаг';
-  $('cvStep1').style.display='none'; $('cvStep2').style.display=''; haptic('medium'); }
+  $('cvWave').style.display='none'; $('cvStep1').style.display='none'; $('cvStep2').style.display=''; haptic('medium'); waveStart('crav'); }
 function cravBreathe(){ if(cvLast){ cvLast.br=1; store.set('cravings',C); } closeSheets(); setTimeout(openSos,250); }
 function renderCravK(){ const el=$('cravK'); if(!el) return; if(!S.plus){ el.textContent='отметить и подышать'; return; }
   const k=dayKey(Date.now()), n=C.filter(e=>dayKey(e.t)===k).length; el.textContent=n?`сегодня: ${n} ${n===1?'раз':(n<5?'раза':'раз')}`:'отметить и подышать'; }
@@ -2355,7 +2395,7 @@ let orbScale=.55;
 const OCOL={'Вдох':[[255,244,232],[255,210,184],[242,155,136],[217,128,154]],'Задержи':[[246,240,255],[214,198,250],[164,140,226],[126,110,200]],
   'Выдох':[[236,248,255],[178,222,240],[110,170,215],[88,128,196]],'Пауза':[[240,244,255],[196,206,240],[140,150,214],[110,112,186]]};
 const ocur=OCOL['Вдох'].map(c=>c.slice());
-function finishBreath(){ breathing=false; $('sos').classList.remove('focus'); $('bprog').innerHTML=''; bell(); notify();
+function finishBreath(){ setTimeout(waveCheck,800); breathing=false; $('sos').classList.remove('focus'); $('bprog').innerHTML=''; bell(); notify();
   $('pn').textContent='Готово'; $('ps').textContent=''; $('hint').textContent=''; $('cycles').textContent=`Ты подышал около ${Math.round(BSESSION/60)} минут. Как ты сейчас? Коснись круга, чтобы подышать ещё, или перейди к «15 минутам»`; }
 function drawOrb(t){
   const c=$('orb'), g=c.getContext('2d'), W=600, C=300; g.clearRect(0,0,W,W);
@@ -2403,7 +2443,7 @@ function callTap(e){ if(S.phone){ haptic('medium'); return true; } e.preventDefa
 function phoneForm(on){ const f=$('sosPhoneForm'); f.classList.toggle('on',on); $('callBtn').style.display=on?'none':''; if(on){ $('spName').value=S.phoneName||''; $('spNum').value=S.phone||''; setTimeout(()=>$('spNum').focus(),200); } $('spEdit').classList.toggle('on',!on&&!!S.phone); }
 function savePhoneSos(){ const n=$('spNum').value.trim(); if(n.replace(/\D/g,'').length<5){ toast('Проверь номер'); return; }
   S.phone=n; S.phoneName=$('spName').value.trim(); store.set('settings',S); phoneForm(false); renderCall(); haptic(); toast('Номер сохранён'); }
-function openSos(){ setTimeout(()=>{ renderTips(); patDesc(); }); $('sosLetter').style.display=S.plus&&S.letter&&S.letter.text?'':'none'; $('sos').classList.add('on'); haptic('medium'); sosTab('pBreath'); buildPatterns();
+function openSos(){ setTimeout(()=>{ renderTips(); patDesc(); }); $('sosWave').innerHTML=''; waveStart('sos'); $('sosLetter').style.display=S.plus&&S.letter&&S.letter.text?'':'none'; $('sos').classList.add('on'); haptic('medium'); sosTab('pBreath'); buildPatterns();
   $('sosReasons').innerHTML=(S.reasons||[]).map((r,i)=>`<div class="reason"><span class="rnum">${i+1}</span>${esc(r)}</div>`).join('')||'<p>Добавь свои причины в настройках — они помогут в такой момент.</p>';
   renderCall(); phoneForm(false);
   if(tg&&tg.BackButton){ tg.BackButton.show(); tg.BackButton.onClick(closeSos);} }
@@ -2519,8 +2559,12 @@ function renderOb(){ const el=$('ostep'); el.style.animation='none'; el.offsetHe
   if(ob.step===1){ obWheel=initWheel('obw',ob.start,t=>{ ob.start=t; obPrev(); }); obPrev(); }
   if(ob.step===2) obCost(0,ob.cost);
   if(ob.step===3) obRenderR(); }
-const APP_VERSION='1.2';
+const APP_VERSION='1.3';
 const CHANGELOG=[
+ {v:'1.3',d:'16 ноября',items:[
+  ['Волна вместе','Когда тянет, видно, сколько людей прямо сейчас держатся вместе с тобой, — и можно анонимно их поддержать.'],
+  ['Сторис на рубеж','На 7, 30, 100 днях — красивая открытка в сторис Telegram одной кнопкой.'],
+  ['Позови друга','Пригласи по своей ссылке — вам обоим неделя Плюса.']]},
  {v:'1.2',d:'15 ноября',items:[
   ['Совет, когда тянет','После отметки тяги приложение подскажет, что поможет именно сейчас — под твою причину: скука, одиночество, стресс и другие.'],
   ['Поделиться днём','Кнопка рядом со счётчиком: отправь близким, сколько ты уже идёшь.'],
